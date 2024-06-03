@@ -474,4 +474,9 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
+*.sln
+/Posix-Complaint-Shell
+/x64
+/.vs
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,c,visualstudio

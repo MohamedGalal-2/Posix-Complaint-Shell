@@ -14,6 +14,7 @@ void blue();
 void magenta();
 void cyan();
 void reset();
-#endif
+
+#endif // _COLORS_H_
 
 

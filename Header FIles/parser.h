@@ -9,7 +9,8 @@
 #include <string.h>
 
 /* Functions Prototype Section */
-char* removeNewLine(char buffer[]);
+char* removeLeadingSpaces(char* str);
+char* removeNewLine(char *buffer);
 char* getCommand(char* buffer);
 char* getArgument(char* buffer);
 

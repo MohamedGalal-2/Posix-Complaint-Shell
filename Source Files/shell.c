@@ -9,8 +9,14 @@ void display_welcome_message()
     green();
     printf("\n");
     printf("**********************************************************\n");
-    printf("*                                                        *\n");
     printf("*           Welcome to the Ultimate POSIX Shell          *\n");
+    printf("*                                                        *\n");
+    printf("*                           _~_                          *\n");
+    printf("*                          (o o)                         *\n");
+    printf("*                         /  V  \\                        *\n");
+    printf("*                        /(  _  )\\                       *\n");
+    printf("*                          ^^ ^^                         *\n");
+    printf("*                                                        *\n");
     printf("*                                                        *\n");
     printf("*    Type 'help' to see the list of available commands   *\n");
     printf("*          Type 'exit' to leave the shell                *\n");
@@ -29,9 +35,12 @@ void get_Input()
     while (1)
     {
         yellow();
-        printf("$ ");
+        printf("Shell--> $ ");
         reset();
+        
+        // get the user input character by character until the user presses the enter key
         fgets(buffer, 128, stdin);
+       
         commandCheck(buffer);
     }
 }

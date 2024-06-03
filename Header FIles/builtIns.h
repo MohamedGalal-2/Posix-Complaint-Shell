@@ -10,10 +10,14 @@
 #include <string.h>
 #include <io.h> 
 #include "command_handling.h"
+#include "colors.h"
 
 
 /* Functions Prototype Section */
 void echo(char* argument);
+void type(char* command);
+void help();
+void pwd();
 int handleBuiltIns(char* command, char* argument);
 
 #endif // _BUILTINS_H

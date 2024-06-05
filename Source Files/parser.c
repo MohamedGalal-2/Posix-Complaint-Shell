@@ -58,16 +58,16 @@ char* getCommand(char* buffer)
     strcpy(buffer, removeLeadingSpaces(buffer));
 
     // Allocate memory for the command string
-    char* command = (char*)malloc(128);
+    char* command = (char*)malloc(strlen(buffer) + 1); // +1 for null terminator
     if (command == NULL)
     {
         // Memory allocation failed, return NULL
         return NULL;
     }
 
+    // Copy characters until a space or null terminator is encountered
     int i = 0;
-
-    while (buffer[i] != ' ' && buffer[i] != '\n' && buffer[i] != '\t')
+    while (buffer[i] != ' ' && buffer[i] != '\0')
     {
         command[i] = buffer[i];
         i++;
@@ -77,6 +77,7 @@ char* getCommand(char* buffer)
     command[i] = '\0';
     return command;
 }
+
 
 /**
  * @brief Extracts the argument from a buffer containing user input.

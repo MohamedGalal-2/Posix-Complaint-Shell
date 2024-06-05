@@ -13,6 +13,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Macros Section */
+#define MAX_INPUT_LENGTH 256
+
 /* Functions Prototype Section */
 
 /**

@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
+#include <lmcons.h>
+#include <io.h>
 
 /* Function Prototypes */
 void display_welcome_message();

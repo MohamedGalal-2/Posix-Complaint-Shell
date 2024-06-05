@@ -6,7 +6,7 @@
 
 void display_welcome_message() 
 {
-    green();
+    cyan();
     printf("\n");
     printf("**********************************************************\n");
     printf("*           Welcome to the Ultimate POSIX Shell          *\n");
@@ -29,13 +29,40 @@ void display_welcome_message()
     reset();
 }
 
+void info() {
+    // Retrieving username from environment variable
+    char* username = getenv("USERNAME");
+    if (username == NULL)
+    {
+        return;
+    }
+
+    // Retrieving computer name from environment variable
+    char* computerName = getenv("COMPUTERNAME");
+    if (computerName == NULL) 
+    {
+        return;
+    }
+    
+    // Displaying the username and computer name
+    green();
+    printf("%s@%s", username, computerName);
+    reset();
+
+    printf(":");
+    blue();
+    printf("~");
+    reset();
+    printf("$ ");
+}
+
 void get_Input()
 {
     char buffer[128]; // buffer to store user input
     while (1)
     {
         yellow();
-        printf("Shell--> $ ");
+        info();
         reset();
         
         // get the user input character by character until the user presses the enter key
@@ -49,6 +76,4 @@ void shell_Init()
 {
     display_welcome_message();
     get_Input();
-	// Set the current working directory to the home directory
-	// chdir(getenv("HOME"));
 }

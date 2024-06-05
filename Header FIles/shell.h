@@ -55,9 +55,6 @@ static void display_welcome_message();
   */
 static void info();
 
-static void moveCursorRight();
-static void moveCursorLeft();
-
 /**
   * @brief  Enables raw mode in the console.
   * @param  None
@@ -75,20 +72,61 @@ static void enableRawMode();
 static void disableRawMode();
 
 /**
-  * @brief  Moves the cursor back in the console.
+  * @brief  Moves the cursor one position to the left.
   * @param  None
   * @return void
-  * @note   This function moves the cursor back by one character in the console.
+  * @note   This function moves the cursor one position to the left in the console.
   */
-static void moveCursorBack();
-
-static void handleInput(char buffer[], int* index);
+void moveCursorLeft();
 
 /**
-  * @brief  Reads a single character from the console.
+  * @brief  Moves the cursor one position to the right.
   * @param  None
-  * @return char
-  * @note   This function reads a single character from the console without waiting for a newline.
+  * @return void
+  * @note   This function moves the cursor one position to the right in the console.
+  */
+void moveCursorRight();
+
+/**
+  * @brief  Moves the cursor to the start of the line.
+  * @param  initialX The initial X position of the cursor.
+  * @param  initialY The initial Y position of the cursor.
+  * @param  tempIndex The index of the current character in the temp buffer.
+  * @return void
+  * @note   This function moves the cursor to the start of the line based on the initial
+  *         X and Y positions and the temp buffer index.
+  */
+void moveCursorToStart(int initialX, int initialY, int tempIndex);
+
+/**
+  * @brief  Redraws the current line in the console.
+  * @param  tempBuffer The temporary buffer containing the current line.
+  * @param  initialX The initial X position of the cursor.
+  * @param  initialY The initial Y position of the cursor.
+  * @param  tempIndex The index of the current character in the temp buffer.
+  * @return void
+  * @note   This function clears the current line, redraws the content of the temp buffer,
+  *         and moves the cursor to the correct position.
+  */
+static void redrawLine(const char* tempBuffer, int initialX, int initialY, int tempIndex);
+
+/**
+  * @brief  Handles the user input in the console.
+  * @param  buffer The input buffer.
+  * @param  index The index of the current character in the buffer.
+  * @return void
+  * @note   This function handles the user input character by character and updates
+  *         the buffer accordingly. It supports basic editing features like backspace,
+  *         arrow keys, and home/end keys.
+  */
+static void handleInput(char buffer[], int* index);
+
+/** @brief  Gets the user input from the console.
+  * @param  None
+  * @return void
+  * @note   This function reads the user input character by character and handles
+  *         the input accordingly. It supports basic editing features like backspace,
+  *         arrow keys, and home/end keys.
   */
 static void get_Input();
 

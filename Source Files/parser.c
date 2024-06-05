@@ -8,37 +8,40 @@
 
 /* Function Definitions */
 
-/**
-  * @brief Removes leading spaces from a string.
-  * @param str The string from which leading spaces will be removed.
-  * @return char* Pointer to the modified string.
-  */
 char* removeLeadingSpaces(char* str) 
 {
+    /**
+      * @brief Removes leading spaces from a string.
+      * @param str The string from which leading spaces will be removed.
+      * @return char* Pointer to the modified string.
+      */
+
     while (*str == ' ') str++;
     return str;
 }
 
-/**
- * @brief Removes trailing spaces from a string.
- * @param str The string from which trailing spaces will be removed.
- * @return char* Pointer to the modified string.
- */
 char* removeLastSpaces(char* str) 
 {
+    /**
+      * @brief Removes trailing spaces from a string.
+      * @param str The string from which trailing spaces will be removed.
+      * @return char* Pointer to the modified string.
+      */
+    
     char* end = str + strlen(str) - 1;
     while (end > str && *end == ' ') end--;
     *(end + 1) = '\0';
     return str;
 }
 
-/**
- * @brief Removes newline character from a string.
- * @param str The string from which newline character will be removed.
- * @return char* Pointer to the modified string.
- */
 char* removeNewLine(char* str) 
 {
+    /**
+      * @brief Removes newline character from a string.
+      * @param str The string from which newline character will be removed.
+      * @return char* Pointer to the modified string.
+      */
+     
     char* pos;
     if ((pos = strchr(str, '\n')) != NULL) 
     {
@@ -47,13 +50,14 @@ char* removeNewLine(char* str)
     return str;
 }
 
-/**
-  * @brief Extracts the command from a buffer containing user input.
-  * @param buffer The buffer containing user input.
-  * @return char* Pointer to the extracted command string. NULL if memory allocation fails.
-  */
 char* getCommand(char* buffer)
 {
+    /**
+      * @brief Extracts the command from a buffer containing user input.
+      * @param buffer The buffer containing user input.
+      * @return char* Pointer to the extracted command string. NULL if memory allocation fails.
+      */
+    
     // Remove leading spaces
     strcpy(buffer, removeLeadingSpaces(buffer));
 
@@ -78,15 +82,15 @@ char* getCommand(char* buffer)
     return command;
 }
 
-
-/**
- * @brief Extracts the argument from a buffer containing user input.
- * @param buffer The buffer containing user input.
- * @return char* Pointer to the extracted argument string.
- * @note The caller is responsible for freeing the memory allocated for the returned argument string.
- */
 char* getArgument(char* buffer) 
 {
+    /**
+      * @brief Extracts the argument from a buffer containing user input.
+      * @param buffer The buffer containing user input.
+      * @return char* Pointer to the extracted argument string.
+      * @note The caller is responsible for freeing the memory allocated for the returned argument string.
+      */
+
     int i = 0;
 
     // Skip until the first space character or end of line

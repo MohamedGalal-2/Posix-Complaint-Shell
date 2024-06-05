@@ -1,5 +1,5 @@
 /**
-  * @ file  colors.c
+  * @ file  colors.h
   * @ brief Function definitions for text color manipulation.
   */
 

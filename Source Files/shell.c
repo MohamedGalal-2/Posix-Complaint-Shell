@@ -3,15 +3,17 @@
 
 /* Function Definition Section */
 
-/**
-  * @brief  Displays a welcome message in the console with instructions.
-  * @param  None
-  * @return void
-  * @note   This function prints a welcome message in cyan color with instructions
-  *         on how to use the POSIX shell and provides some basic ASCII art.
-  */
+
 static void display_welcome_message() 
 {
+    /**
+      * @brief  Displays a welcome message in the console with instructions.
+      * @param  None
+      * @return void
+      * @note   This function prints a welcome message in cyan color with instructions
+      *         on how to use the POSIX shell and provides some basic ASCII art.
+      */
+    
     cyan(); // Set text color to cyan
     printf("\n");
     printf("**********************************************************\n");
@@ -35,15 +37,16 @@ static void display_welcome_message()
     reset(); // Reset text color
 }
 
-/**
-  * @brief  Displays the username, computer name, and current path in the console.
-  * @param  None
-  * @return void
-  * @note   This function retrieves the username, computer name, and current path
-  *         from the environment variables and displays them in the console.
-  */
 static void info()
 {
+    /**
+      * @brief  Displays the username, computer name, and current path in the console.
+      * @param  None
+      * @return void
+      * @note   This function retrieves the username, computer name, and current path
+      *         from the environment variables and displays them in the console.
+      */
+
     struct user userInfo;
 
     // Retrieving username from environment variable
@@ -67,39 +70,16 @@ static void info()
     printf("$ ");
 }
 
-/**
-  * @brief  Moves the cursor right by one position in the console.
-  * @param  None
-  * @return void
-  * @note   This function moves the cursor right by one position in the console
-  *         to handle arrow key input.
-  */
-static void moveCursorRight() 
-{
-    printf("\033[1C"); // Move cursor right by one position
-}
-
-/**
-  * @brief  Moves the cursor back by one position in the console.
-  * @param  None
-  * @return void
-  * @note   This function moves the cursor back by one position in the console
-  *         to handle backspace input.
-  */
-static void moveCursorLeft() 
-{
-    printf("\033[1D"); // Move cursor left by one position
-}
-
-/**
-  * @brief  Enables raw input mode for the console.
-  * @param  None
-  * @return void
-  * @note   This function disables echo input, line input, and processed input
-  *         to allow for raw input mode in the console.
-  */
 void enableRawMode()
 {
+    /**
+      * @brief  Enables raw input mode for the console.
+      * @param  None
+      * @return void
+      * @note   This function disables echo input, line input, and processed input
+      *         to allow for raw input mode in the console.
+      */
+    
     // Get handle to standard input
     HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -114,15 +94,16 @@ void enableRawMode()
     SetConsoleMode(hStdin, mode);
 }
 
-/**
-  * @brief  Disables raw input mode for the console.
-  * @param  None
-  * @return void
-  * @note   This function enables echo input, line input, and processed input
-  *         to reset the console mode to its default state.
-  */
 void disableRawMode()
 {
+    /**
+      * @brief  Disables raw input mode for the console.
+      * @param  None
+      * @return void
+      * @note   This function enables echo input, line input, and processed input
+      *         to reset the console mode to its default state.
+      */
+    
     // Get handle to standard input
     HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -137,81 +118,182 @@ void disableRawMode()
     SetConsoleMode(hStdin, mode);
 }
 
-/**
-  * @brief  Moves the cursor back by one position in the console.
-  * @param  None
-  * @return void
-  * @note   This function moves the cursor back by one position in the console
-  *         to handle backspace input.
-  */
-static void moveCursorBack() 
+void moveCursorLeft() 
 {
-    printf("\b \b");
+    /**
+	  * @brief  Moves the cursor one position to the left.
+	  * @param  None
+	  * @return void
+	  * @note   This function moves the cursor one position to the left in the console.
+	  */
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    COORD cursorPos = csbi.dwCursorPosition;
+    if (cursorPos.X > 0) 
+    {
+        cursorPos.X--;
+    }
+    else if (cursorPos.Y > 0) 
+    {
+        cursorPos.Y--;
+        cursorPos.X = csbi.dwSize.X - 1;
+    }
+    SetConsoleCursorPosition(hConsole, cursorPos);
 }
 
-/**
-  * @brief  Handles user input character by character.
-  * @param  buffer: The input buffer.
-  * @param  index: The index of the buffer.
-  * @return void
-  * @note   This function reads user input character by character and processes
-  *         it to handle backspace, enter, and tab characters. It also prevents
-  *         buffer overflow and processes the command once the user hits enter.
-  */
-static void handleInput(char buffer[], int* index) {
+void moveCursorRight() 
+{
+    /**
+      * @brief  Moves the cursor one position to the right.
+      * @param  None
+      * @return void
+      * @note   This function moves the cursor one position to the right in the console.
+      */
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    COORD cursorPos = csbi.dwCursorPosition;
+    if (cursorPos.X < csbi.dwSize.X - 1) 
+    {
+        cursorPos.X++;
+    }
+    else 
+    {
+        cursorPos.Y++;
+        cursorPos.X = 0;
+    }
+    SetConsoleCursorPosition(hConsole, cursorPos);
+}
+
+void moveCursorToStart(int initialX, int initialY, int tempIndex) 
+{
+    /**
+	  * @brief  Moves the cursor to the start of the line.
+	  * @param  initialX The initial X position of the cursor.
+	  * @param  initialY The initial Y position of the cursor.
+	  * @param  tempIndex The index of the current character in the temp buffer.
+	  * @return void
+	  * @note   This function moves the cursor to the start of the line based on the initial
+	  *         X and Y positions and the temp buffer index.
+	  */
+    
+    COORD cursorCoord;
+    cursorCoord.X = initialX - tempIndex; // Adjusted position based on temp buffer index
+    cursorCoord.Y = initialY;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorCoord);
+}
+
+static void redrawLine(const char* tempBuffer, int initialX, int initialY, int tempIndex) 
+{
+    /**
+      * @brief  Redraws the current line in the console.
+      * @param  tempBuffer The temporary buffer containing the current line.
+      * @param  initialX The initial X position of the cursor.
+      * @param  initialY The initial Y position of the cursor.
+      * @param  tempIndex The index of the current character in the temp buffer.
+      * @return void
+      * @note   This function clears the current line, redraws the content of the temp buffer,
+      *         and moves the cursor to the correct position.
+      */
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD cursorCoord;
+    cursorCoord.X = initialX;
+    cursorCoord.Y = initialY;
+    SetConsoleCursorPosition(hConsole, cursorCoord);
+
+    // Clear the current line
+    DWORD charsWritten;
+    FillConsoleOutputCharacter(hConsole, ' ', strlen(tempBuffer) + 1, cursorCoord, &charsWritten);
+
+    // Move cursor back to the initial position
+    SetConsoleCursorPosition(hConsole, cursorCoord);
+
+    // Print the buffer content
+    printf("%s", tempBuffer);
+
+    // Move cursor to the correct position
+    cursorCoord.X = initialX + tempIndex;
+    SetConsoleCursorPosition(hConsole, cursorCoord);
+}
+
+static void handleInput(char buffer[], int* index) 
+{
+    /**
+	  * @brief  Handles user input character by character.
+	  * @param  buffer The buffer to store user input.
+	  * @param  index The index to keep track of the buffer position.
+	  * @return void
+	  * @note   This function reads user input character by character and processes
+	  *         it to handle backspace, enter, and tab characters. It also prevents
+	  *         buffer overflow and processes the command once the user hits enter.
+	  */
+
     HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
     DWORD bytesRead;
     INPUT_RECORD irInBuf;
-    int inputLength = strlen(buffer); // Track the length of input
-    int cursorPosition = 0; // Track the cursor position on the screen
-    char tempBuffer[128] = ""; // Temporary buffer to traverse without modifying the real buffer
-    int tempIndex = 0; // Temporary index for traversing
+    int inputLength = strlen(buffer);
+    char tempBuffer[128] = "";
+    int tempIndex = 0;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    int initialX = csbi.dwCursorPosition.X;
+    int initialY = csbi.dwCursorPosition.Y;
 
     while (1) {
-        if (ReadConsoleInput(hStdin, &irInBuf, 1, &bytesRead)) {
-            if (irInBuf.EventType == KEY_EVENT && irInBuf.Event.KeyEvent.bKeyDown) {
-                switch (irInBuf.Event.KeyEvent.wVirtualKeyCode) {
+        if (ReadConsoleInput(hStdin, &irInBuf, 1, &bytesRead)) 
+        {
+            if (irInBuf.EventType == KEY_EVENT && irInBuf.Event.KeyEvent.bKeyDown) 
+            {
+                switch (irInBuf.Event.KeyEvent.wVirtualKeyCode) 
+                {
                 case VK_LEFT:
-                    if (tempIndex > 0) {
+                    if (tempIndex > 0) 
+                    {
                         moveCursorLeft();
                         tempIndex--;
-                        cursorPosition--;
                     }
                     break;
                 case VK_RIGHT:
-                    if (tempIndex < strlen(tempBuffer)) {
+                    if (tempIndex < strlen(tempBuffer)) 
+                    {
                         moveCursorRight();
                         tempIndex++;
-                        cursorPosition++;
                     }
                     break;
                 case VK_RETURN:
                     printf("\n");
-                    buffer[*index] = '\0'; // Null-terminate the buffer
-                    commandCheck(buffer); // Execute the command
-                    memset(buffer, 0, sizeof(buffer)); // Clear the buffer for next input
+                    buffer[*index] = '\0';              // Null-terminate the buffer
+                    commandCheck(buffer);               // Execute the command
+                    memset(buffer, 0, sizeof(buffer));  // Clear the buffer for next input
                     *index = 0;
                     // Copy the content of tempBuffer to buffer
                     strcpy(buffer, tempBuffer);
                     *index = strlen(tempBuffer);
                     return;
                 default:
-                    if (irInBuf.Event.KeyEvent.uChar.AsciiChar == '\b' || irInBuf.Event.KeyEvent.uChar.AsciiChar == 127) {
-                        if (tempIndex > 0) {
+                    if (irInBuf.Event.KeyEvent.uChar.AsciiChar == '\b' || irInBuf.Event.KeyEvent.uChar.AsciiChar == 127) 
+                    {
+                        if (tempIndex > 0) 
+                        {
                             tempIndex--;
                             moveCursorLeft();
-                            printf(" "); // Erase the character
+                            printf(" ");        // Erase the character
                             moveCursorLeft();
-                            memmove(&tempBuffer[tempIndex], &tempBuffer[tempIndex + 1], strlen(tempBuffer) - tempIndex);
+                            memmove(&tempBuffer[tempIndex], &tempBuffer[tempIndex + 1], strlen(tempBuffer) - tempIndex + 1);
+                            redrawLine(tempBuffer, initialX, initialY, tempIndex);
                         }
                     }
-                    else if (irInBuf.Event.KeyEvent.uChar.AsciiChar >= 32 && irInBuf.Event.KeyEvent.uChar.AsciiChar < 127) {
+                    else if (irInBuf.Event.KeyEvent.uChar.AsciiChar >= 32 && irInBuf.Event.KeyEvent.uChar.AsciiChar < 127) 
+                    {
                         if (strlen(tempBuffer) < sizeof(tempBuffer) - 1) { // Check if there is space in the tempBuffer
-                            putchar(irInBuf.Event.KeyEvent.uChar.AsciiChar);
-                            memmove(&tempBuffer[tempIndex + 1], &tempBuffer[tempIndex], strlen(tempBuffer) - tempIndex);
+                            memmove(&tempBuffer[tempIndex + 1], &tempBuffer[tempIndex], strlen(tempBuffer) - tempIndex + 1);
                             tempBuffer[tempIndex] = irInBuf.Event.KeyEvent.uChar.AsciiChar;
                             tempIndex++;
-                            cursorPosition++;
+                            redrawLine(tempBuffer, initialX, initialY, tempIndex);
                         }
                     }
                     break;
@@ -221,15 +303,17 @@ static void handleInput(char buffer[], int* index) {
     }
 }
 
-/**
-  * @brief  Gets user input from the console and processes it.
-  * @param  None
-  * @return void
-  * @note   This function reads user input character by character and processes
-  *         it to handle backspace, enter, and tab characters. It also prevents
-  *         buffer overflow and processes the command once the user hits enter.
-  */
-static void get_Input() {
+static void get_Input() 
+{
+    /**
+      * @brief  Gets user input from the console and processes it.
+      * @param  None
+      * @return void
+      * @note   This function reads user input character by character and processes
+      *         it to handle backspace, enter, and tab characters. It also prevents
+      *         buffer overflow and processes the command once the user hits enter.
+      */
+    
     char buffer[128] = { 0 }; // Buffer to store user input
     int index = 0;
 
@@ -252,14 +336,15 @@ static void get_Input() {
     disableRawMode(); // Reset the console mode
 }
 
-/**
-  * @brief  Initializes the shell by displaying a welcome message and getting user input.
-  * @param  None
-  * @return void
-  * @note   This function serves as the entry point for the shell application.
-  */
 void shell_Init()
 {
+    /**
+      * @brief  Initializes the shell by displaying a welcome message and getting user input.
+      * @param  None
+      * @return void
+      * @note   This function serves as the entry point for the shell application.
+      */
+    
     display_welcome_message();
 
     get_Input();

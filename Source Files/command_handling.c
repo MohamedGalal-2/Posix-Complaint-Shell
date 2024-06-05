@@ -8,15 +8,16 @@
 
 /* Function Definition Section */
 
-/**
-  * @brief  Checks if a command exists in the list of supported commands.
-  * @param  buffer The buffer containing the command to check.
-  * @return int An integer indicating the existence of the command:
-  *             0 if not found, 1 if found, 2 if buffer is empty.
-  */
 int ifExist(char *buffer)
 {
-    // List of commands
+    /**
+	  * @brief  Checks if a command exists in the list of supported commands.
+	  * @param  buffer The buffer containing the command to check.
+	  * @return int An integer indicating the existence of the command:
+	  *             0 if not found, 1 if found, 2 if buffer is empty.
+	  */
+    
+      // List of commands
     char command[][10] = { "exit", "echo", "type", "help", "ls", "pwd", "cd", "mkdir", "rmdir", "rm", "cp", "mv", "cat", "more", "date", "who", "ps", "clear", "exit", "touch", "chmod", "chown", "chgrp", "ln", "wc", "grep", "sort", "uniq", "cut", "paste", "join", "comm", "diff", "tar", "gzip", "gunzip", "zip", "unzip", "head", "tail", "tr", "sed", "awk", "find", "xargs", "kill" };
 
     int i = 0;
@@ -40,15 +41,16 @@ int ifExist(char *buffer)
     return flag;
 }
 
-/**
-  * @brief  Parses the user input buffer and determines the appropriate action.
-  * @param  buffer The buffer containing the user input.
-  * @return void
-  * @note   This function extracts the command from the buffer, checks if it exists,
-  *         and then either invokes the corresponding built-in function or prints an error message.
-  */
 void commandCheck(char *buffer)
 {
+    /**
+      * @brief  Parses the user input buffer and determines the appropriate action.
+      * @param  buffer The buffer containing the user input.
+      * @return void
+      * @note   This function extracts the command from the buffer, checks if it exists,
+      *         and then either invokes the corresponding built-in function or prints an error message.
+      */
+
     char Command[128];
     char Argument[128];
 

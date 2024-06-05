@@ -1,117 +1,123 @@
-/* Includes Section */
+/**
+  * @file parser.c
+  * @brief Source file containing functions for parsing user input.
+  */
+ 
+ /* Includes Section */
 #include "..\Header Files\parser.h"
 
-/* Function Definition Section */
+/* Function Definitions */
 
+/**
+  * @brief Removes leading spaces from a string.
+  * @param str The string from which leading spaces will be removed.
+  * @return char* Pointer to the modified string.
+  */
 char* removeLeadingSpaces(char* str) 
 {
-	int index = 0, i = 0;
-
-	// Find the index of the first non-space and non-tab character
-	while (str[index] == ' ' || str[index] == '\t') {
-		index++;
-	}
-
-	// Shift the characters to the left
-	while (str[index]) {
-		str[i++] = str[index++];
-	}
-
-	// Null-terminate the string
-	str[i] = '\0';
-
-	return str;
+    while (*str == ' ') str++;
+    return str;
 }
 
-char* removeNewLine(char *buffer)
+/**
+ * @brief Removes trailing spaces from a string.
+ * @param str The string from which trailing spaces will be removed.
+ * @return char* Pointer to the modified string.
+ */
+char* removeLastSpaces(char* str) 
 {
-	int i = 0;
-
-	while (buffer[i] != '\n')
-	{
-		i++;
-	}
-
-	char* returned;
-	returned = (char*)malloc(i * sizeof(char));
-
-	if (NULL == returned)
-	{
-		return;
-	}
-	else
-	{
-		for (int j = 0; j < i; j++)
-		{
-			returned[j] = buffer[j];
-		}
-
-		// Null-terminate the string
-		returned[i] = '\0';
-	}
-
-	return &(returned[0]);
+    char* end = str + strlen(str) - 1;
+    while (end > str && *end == ' ') end--;
+    *(end + 1) = '\0';
+    return str;
 }
 
-char* getCommand(char *buffer)
+/**
+ * @brief Removes newline character from a string.
+ * @param str The string from which newline character will be removed.
+ * @return char* Pointer to the modified string.
+ */
+char* removeNewLine(char* str) 
 {
-	// Remove leading spaces
-	strcpy(buffer, removeLeadingSpaces(buffer));
-
-	char *command = (char *)malloc(128);
-	int i = 0;
-
-	while(buffer[i] != ' ' && buffer[i] != '\n' && buffer[i] != '\t')
-	{
-		command[i] = buffer[i];
-		i++;
-	}
-
-	if (NULL == command)
-	{
-		return;
-	}
-
-	// Null-terminate the string
-	command[i] = '\0';
-	
-	return command;
+    char* pos;
+    if ((pos = strchr(str, '\n')) != NULL) 
+    {
+        *pos = '\0';
+    }
+    return str;
 }
 
-char* getArgument(char *buffer)
+/**
+  * @brief Extracts the command from a buffer containing user input.
+  * @param buffer The buffer containing user input.
+  * @return char* Pointer to the extracted command string. NULL if memory allocation fails.
+  */
+char* getCommand(char* buffer)
 {
-	char *argument = (char *)malloc(128);
-	int i = 0;
-	int j = 0;
+    // Remove leading spaces
+    strcpy(buffer, removeLeadingSpaces(buffer));
 
-	while(buffer[i] != ' ')
-	{
-		i++;
+    // Allocate memory for the command string
+    char* command = (char*)malloc(128);
+    if (command == NULL)
+    {
+        // Memory allocation failed, return NULL
+        return NULL;
+    }
 
-		// If there is no argument
-		if (buffer[i] == '\n')
-		{
-			return NULL;
-		}
-	}
-	i++;
+    int i = 0;
 
-	if (NULL == argument)
-	{
-		return;
-	}
-	else
-	{
-		while (buffer[i] != '\0')
-		{
-			argument[j] = buffer[i];
-			i++;
-			j++;
-		}
+    while (buffer[i] != ' ' && buffer[i] != '\n' && buffer[i] != '\t')
+    {
+        command[i] = buffer[i];
+        i++;
+    }
 
-		// Null-terminate the string
-		argument[j] = '\0';
-	}
+    // Null-terminate the command string
+    command[i] = '\0';
+    return command;
+}
 
-	return argument;
+/**
+ * @brief Extracts the argument from a buffer containing user input.
+ * @param buffer The buffer containing user input.
+ * @return char* Pointer to the extracted argument string.
+ * @note The caller is responsible for freeing the memory allocated for the returned argument string.
+ */
+char* getArgument(char* buffer) 
+{
+    int i = 0;
+
+    // Skip until the first space character or end of line
+    while (buffer[i] != ' ' && buffer[i] != '\n' && buffer[i] != '\0') 
+    {
+        i++;
+    }
+
+    // If there is no argument
+    if (buffer[i] == '\n' || buffer[i] == '\0') 
+    {
+        return NULL;
+    }
+
+    // Skip leading spaces to locate the start of the argument
+    while (buffer[i] == ' ') 
+    {
+        i++;
+    }
+
+    // Calculate the length of the argument
+    int length = strlen(buffer + i);
+
+    // Allocate memory for the argument string
+    char* argument = (char*)malloc(length + 1);
+    if (argument == NULL) 
+    {
+        return NULL; // Memory allocation failed
+    }
+
+    // Copy the argument from the buffer to the allocated memory
+    strcpy(argument, buffer + i);
+
+    return argument;
 }

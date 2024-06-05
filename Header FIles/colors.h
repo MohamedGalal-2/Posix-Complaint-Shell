@@ -1,3 +1,8 @@
+/**
+  * @ file  colors.c
+  * @ brief Function definitions for text color manipulation.
+  */
+
 /*File Guard*/
 #pragma once
 #ifndef _COLORS_H_

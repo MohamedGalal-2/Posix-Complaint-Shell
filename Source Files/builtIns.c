@@ -1,110 +1,148 @@
 /* Includes Section */
 #include "..\Header Files\builtIns.h"
 
-/*Functions Definition Section*/
+/*Functions Definition Section */
 
-
-void echo(char *argument)
+/**
+ * @brief Searches for the executable file in the system's PATH environment variable.
+ * @param command The command to search for.
+ * @return int Returns 1 if the command is found in the PATH, otherwise returns 0.
+ */
+int searchExecutableInPath(char* command) 
 {
-	// dealing with empty string
-	if (argument == NULL)
+	// Get the value of the PATH environment variable
+	char* pathEnvVar = getenv("PATH");
+	if (pathEnvVar == NULL) 
+	{
+		return 0; // PATH environment variable not found
+	}
+
+	char* pathEnvCopy = strdup(pathEnvVar); // Create a copy of the PATH environment variable
+	if (pathEnvCopy == NULL) 
+	{
+		fprintf(stderr, "Memory allocation failed for pathEnvCopy.\n");
+		return 0;
+	}
+
+	char* token = strtok(pathEnvCopy, ";"); // Tokenize PATH using semicolon as delimiter
+
+	while (token != NULL) 
+	{
+		// Construct the full path to the executable by concatenating the token and the command
+		char fullPath[MAX_PATH];
+		snprintf(fullPath, sizeof(fullPath), "%s\\%s", token, command);
+
+		// Check if the file exists at the constructed path
+		if (GetFileAttributes(fullPath) != INVALID_FILE_ATTRIBUTES) 
+		{
+			free(pathEnvCopy); // Free the memory allocated for pathEnvCopy
+			return 1; // Executable file found
+		}
+
+		token = strtok(NULL, ";"); // Move to the next token
+	}
+
+	free(pathEnvCopy); // Free the memory allocated for pathEnvCopy
+	return 0; // Executable file not found
+}
+
+void echo(const char* argument) 
+{
+	// Dealing with empty string or NULL pointer
+	if (argument == NULL || *argument == '\0') 
 	{
 		printf("\n");
 	}
-	else
+	else 
 	{
-		argument = removeNewLine(argument);
-		printf("%s\n", argument);
+		char* cleanedArgument = removeNewLine(argument); // Assuming removeNewLine returns a cleaned string
+		if (cleanedArgument != NULL) 
+		{
+			printf("%s\n", cleanedArgument);
+			free(cleanedArgument); // Free the memory allocated by removeNewLine
+		}
 	}
 }
 
-void type(char* command)
+void type(char* command) 
 {
-	// dealing with null arguments
-	if (command == NULL)
+	// Dealing with null arguments
+	if (command == NULL) 
 	{
 		return;
-	}
-	else
-	{
-		command = removeNewLine(command);
 	}
 
-	// checking if the command is a built-in
-	if(strcmp(command, "echo") == 0)
+	// Allocate memory for tokens array
+	int maxTokens = 20;
+	char** tokens = (char**)malloc(maxTokens * sizeof(char*));
+	if (tokens == NULL) 
 	{
-		red();
-		printf("echo");
-		reset();
-		printf(" is a shell ");
-		red();
-		printf("built-in\n");
-		reset();
+		fprintf(stderr, "Memory allocation failed for tokens array.\n");
+		exit(1);
 	}
-	else if (strcmp(command, "type") == 0)
+
+	// Tokenize the command
+	int tokenCount = 0;
+	tokenizeInput(command, tokens, &tokenCount, maxTokens);
+
+	// Loop through each token
+	for (int i = 0; i < tokenCount; i++) 
 	{
-		red();
-		printf("type");
-		reset();
-		printf(" is a shell ");
-		red();
-		printf("built-in\n");
-		reset();
+		// Ensure currentCommand points to a valid string
+		char* currentCommand = strdup(tokens[i]);
+		if (currentCommand == NULL) 
+		{
+			fprintf(stderr, "Memory allocation failed for currentCommand.\n");
+			freeTokens(tokens, tokenCount);
+			exit(1);
+		}
+
+		// Remove leading spaces, new line character, and last spaces for each command
+		currentCommand = removeLeadingSpaces(currentCommand);
+		currentCommand = removeNewLine(currentCommand);
+		currentCommand = removeLastSpaces(currentCommand);
+
+		// Check if the command is empty or null
+		if (strcmp(currentCommand, "") == 0 || strcmp(currentCommand, "\0") == 0) 
+		{
+			free(currentCommand);
+			continue; // Skip empty commands
+		}
+
+		// Checking if the command is a built-in
+		if (strcmp(currentCommand, "echo") == 0 || strcmp(currentCommand, "type") == 0 || strcmp(currentCommand, "cd") == 0 || strcmp(currentCommand, "pwd") == 0 || strcmp(currentCommand, "help") == 0 || strcmp(currentCommand, "exit") == 0) 
+		{
+			red();
+			printf("%s", currentCommand);
+			reset();
+			printf(" is a shell ");
+			red();
+			printf("built-in\n");
+			reset();
+		}
+		else 
+		{
+			// Check if the command is an executable file
+			int pathFlag = searchExecutableInPath(currentCommand);
+			if (pathFlag == 1) {
+				printf("%s", currentCommand);
+			}
+			else 
+			{
+				cyan();
+				printf("bash: type: ");
+				red();
+				printf("%s:", currentCommand);
+				reset();
+				printf(" not found\n");
+			}
+		}
+
+		free(currentCommand);
 	}
-	else if (strcmp(command, "cd") == 0)
-	{
-		red();
-		printf("cd");
-		reset();
-		printf(" is a shell ");
-		red();
-		printf("built-in\n");
-		reset();
-	}
-	else if (strcmp(command, "pwd") == 0)
-	{
-		red();
-		printf("pwd");
-		reset();
-		printf(" is a shell ");
-		red();
-		printf("built-in\n");
-		reset();
-	}
-	else if (strcmp(command, "help") == 0)
-	{
-		red();
-		printf("help");
-		reset();
-		printf(" is a shell ");
-		red();
-		printf("built-in\n");
-		reset();
-	}
-	else if (strcmp(command, "exit") == 0)
-	{
-		red();
-		printf("exit");
-		reset();
-		printf(" is a shell ");
-		red();
-		printf("built-in\n");
-		reset();
-	}
-	// checking if the command doesn't start with a spaces or a tabs
-	else if (command[0] == ' ' || command[0] == '\t' || command[0] == '\0')
-	{
-		return;
-	}
-	else
-	{
-		cyan();
-		printf("bash: type: ");
-		red();
-		printf("%s:", command);
-		reset();
-		printf(" not found\n");
-	}
+
+	// Free memory allocated for tokens
+	freeTokens(tokens, tokenCount);
 }
 
 void help()

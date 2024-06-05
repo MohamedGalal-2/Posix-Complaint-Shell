@@ -1,3 +1,8 @@
+/**
+  * @ file  colors.c
+  * @ brief Function definitions for text color manipulation.
+  */
+
 /*Includes Section*/
 #include "..\Header Files\colors.h"
 

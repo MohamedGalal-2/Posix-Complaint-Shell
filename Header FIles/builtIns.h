@@ -21,6 +21,7 @@
 #include "colors.h"
 
 /* Functions Prototype Section */
+int searchExecutableInPath(const char* command);
 void echo(char* argument);
 void type(char* command);
 void help();

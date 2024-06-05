@@ -20,25 +20,83 @@
   */
 void tokenizeInput(char* input, char** tokens, int* tokenCount, int maxTokens)
 {
-    char* token = strtok(input, " \n"); // Tokenize based on space and newline
-    int count = 0;
+    int in_quotes = 0; // Flag to track if currently inside double quotes
+    int count = 0; // Counter for tokens
+    char* token_start = input; // Pointer to the start of the current token
+    char* p = input; // Pointer to iterate through the input string
 
-    while (token != NULL && count < maxTokens - 1)
+    // Iterate through the input string
+    while (*p != '\0' && count < maxTokens - 1)
     {
-        tokens[count] = _strdup(token); // Duplicate token and store in array
-        if (tokens[count] == NULL)
+        // If current character is a space or newline
+        if ((*p == ' ' || *p == '\n') && !in_quotes)
         {
-            return; // Return if memory allocation fails
-        }
+            *p = '\0'; // Replace space or newline with null terminator
 
-        count++;
-        token = strtok(NULL, " \n");
+            // If the token is not empty, add it to the tokens array
+            if (token_start != p)
+            {
+                tokens[count++] = _strdup(token_start);
+                if (tokens[count - 1] == NULL)
+                {
+                    // Memory allocation failed, free allocated tokens and return
+                    for (int i = 0; i < count - 1; i++)
+                    {
+                        free(tokens[i]);
+                    }
+                    return;
+                }
+            }
+
+            // Move to the next token
+            token_start = p + 1;
+        }
+        // If current character is a double quote
+        else if (*p == '"')
+        {
+            in_quotes = !in_quotes; // Toggle the in_quotes flag
+            *p = '\0';              // Replace double quote with null terminator
+
+            // If the token is not empty, add it to the tokens array
+            if (token_start != p)
+            {
+                tokens[count++] = _strdup(token_start);
+                if (tokens[count - 1] == NULL)
+                {
+                    // Memory allocation failed, free allocated tokens and return
+                    for (int i = 0; i < count - 1; i++)
+                    {
+                        free(tokens[i]);
+                    }
+                    return;
+                }
+            }
+
+            // Move to the next token
+            token_start = p + 1;
+        }
+        p++; // Move to the next character
     }
 
-    // Null-terminate the array
+    // Add the last token if it's not empty
+    if (token_start != p)
+    {
+        tokens[count++] = _strdup(token_start);
+        if (tokens[count - 1] == NULL)
+        {
+            // Memory allocation failed, free allocated tokens and return
+            for (int i = 0; i < count - 1; i++)
+            {
+                free(tokens[i]);
+            }
+            return;
+        }
+    }
+
+    // Null-terminate the tokens array
     tokens[count] = NULL;
 
-    *tokenCount = count;
+    *tokenCount = count; // Update the token count
 }
 
 /**

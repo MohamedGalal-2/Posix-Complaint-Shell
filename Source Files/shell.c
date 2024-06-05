@@ -68,6 +68,30 @@ static void info()
 }
 
 /**
+  * @brief  Moves the cursor right by one position in the console.
+  * @param  None
+  * @return void
+  * @note   This function moves the cursor right by one position in the console
+  *         to handle arrow key input.
+  */
+static void moveCursorRight() 
+{
+    printf("\033[1C"); // Move cursor right by one position
+}
+
+/**
+  * @brief  Moves the cursor back by one position in the console.
+  * @param  None
+  * @return void
+  * @note   This function moves the cursor back by one position in the console
+  *         to handle backspace input.
+  */
+static void moveCursorLeft() 
+{
+    printf("\033[1D"); // Move cursor left by one position
+}
+
+/**
   * @brief  Enables raw input mode for the console.
   * @param  None
   * @return void
@@ -126,6 +150,78 @@ static void moveCursorBack()
 }
 
 /**
+  * @brief  Handles user input character by character.
+  * @param  buffer: The input buffer.
+  * @param  index: The index of the buffer.
+  * @return void
+  * @note   This function reads user input character by character and processes
+  *         it to handle backspace, enter, and tab characters. It also prevents
+  *         buffer overflow and processes the command once the user hits enter.
+  */
+static void handleInput(char buffer[], int* index) {
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD bytesRead;
+    INPUT_RECORD irInBuf;
+    int inputLength = strlen(buffer); // Track the length of input
+    int cursorPosition = 0; // Track the cursor position on the screen
+    char tempBuffer[128] = ""; // Temporary buffer to traverse without modifying the real buffer
+    int tempIndex = 0; // Temporary index for traversing
+
+    while (1) {
+        if (ReadConsoleInput(hStdin, &irInBuf, 1, &bytesRead)) {
+            if (irInBuf.EventType == KEY_EVENT && irInBuf.Event.KeyEvent.bKeyDown) {
+                switch (irInBuf.Event.KeyEvent.wVirtualKeyCode) {
+                case VK_LEFT:
+                    if (tempIndex > 0) {
+                        moveCursorLeft();
+                        tempIndex--;
+                        cursorPosition--;
+                    }
+                    break;
+                case VK_RIGHT:
+                    if (tempIndex < strlen(tempBuffer)) {
+                        moveCursorRight();
+                        tempIndex++;
+                        cursorPosition++;
+                    }
+                    break;
+                case VK_RETURN:
+                    printf("\n");
+                    buffer[*index] = '\0'; // Null-terminate the buffer
+                    commandCheck(buffer); // Execute the command
+                    memset(buffer, 0, sizeof(buffer)); // Clear the buffer for next input
+                    *index = 0;
+                    // Copy the content of tempBuffer to buffer
+                    strcpy(buffer, tempBuffer);
+                    *index = strlen(tempBuffer);
+                    return;
+                default:
+                    if (irInBuf.Event.KeyEvent.uChar.AsciiChar == '\b' || irInBuf.Event.KeyEvent.uChar.AsciiChar == 127) {
+                        if (tempIndex > 0) {
+                            tempIndex--;
+                            moveCursorLeft();
+                            printf(" "); // Erase the character
+                            moveCursorLeft();
+                            memmove(&tempBuffer[tempIndex], &tempBuffer[tempIndex + 1], strlen(tempBuffer) - tempIndex);
+                        }
+                    }
+                    else if (irInBuf.Event.KeyEvent.uChar.AsciiChar >= 32 && irInBuf.Event.KeyEvent.uChar.AsciiChar < 127) {
+                        if (strlen(tempBuffer) < sizeof(tempBuffer) - 1) { // Check if there is space in the tempBuffer
+                            putchar(irInBuf.Event.KeyEvent.uChar.AsciiChar);
+                            memmove(&tempBuffer[tempIndex + 1], &tempBuffer[tempIndex], strlen(tempBuffer) - tempIndex);
+                            tempBuffer[tempIndex] = irInBuf.Event.KeyEvent.uChar.AsciiChar;
+                            tempIndex++;
+                            cursorPosition++;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+}
+
+/**
   * @brief  Gets user input from the console and processes it.
   * @param  None
   * @return void
@@ -133,68 +229,24 @@ static void moveCursorBack()
   *         it to handle backspace, enter, and tab characters. It also prevents
   *         buffer overflow and processes the command once the user hits enter.
   */
-static void get_Input()
-{
-    // Get handle to standard input
-    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
-
-    char buffer[128]; // Buffer to store user input
-    DWORD bytesRead;
-    char ch;
+static void get_Input() {
+    char buffer[128] = { 0 }; // Buffer to store user input
     int index = 0;
 
     enableRawMode(); // Enable raw input mode
 
-    while (1)
-    {
+    while (1) {
         yellow(); // Set text color to yellow
         info(); // Display user prompt
         reset(); // Reset text color
 
         index = 0; // Reset the buffer index for each new command
 
-        while (1)
-        {
-            ReadConsole(hStdin, &ch, 1, &bytesRead, NULL); // Read input character by character
+        handleInput(buffer, &index);
 
-            // Filter out tab characters
-            if (ch == '\t')
-            {
-                continue;
-            }
+        commandCheck(buffer); // Process the command
 
-            // Handle backspace
-            if (ch == '\b' || ch == 127)
-            {
-                if (index > 0)
-                {
-                    index--;
-                    moveCursorBack(); // Move cursor back one position
-                }
-                continue;
-            }
-
-            // Check for Enter key to process the command
-            if (ch == '\r')
-            {
-                buffer[index] = '\0'; // Null-terminate the buffer
-                printf("\n"); // Move to a new line
-                commandCheck(buffer); // Process the command
-                break;
-            }
-
-            // Echo the character and add to buffer
-            putchar(ch);
-            buffer[index++] = ch;
-
-            // Prevent buffer overflow
-            if (index >= 127)
-            {
-                buffer[127] = '\0'; // Null-terminate the buffer
-                printf("\nCommand too long: %s\n", buffer); // Print error message
-                break;
-            }
-        }
+        memset(buffer, 0, sizeof(buffer)); // Clear the buffer
     }
 
     disableRawMode(); // Reset the console mode
@@ -209,5 +261,7 @@ static void get_Input()
 void shell_Init()
 {
     display_welcome_message();
+
     get_Input();
+
 }

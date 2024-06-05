@@ -16,6 +16,8 @@
 #include "tokenizer.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <conio.h>
 #include <string.h>
 #include <Windows.h>
 #include <Winnt.h>
@@ -53,6 +55,9 @@ static void display_welcome_message();
   */
 static void info();
 
+static void moveCursorRight();
+static void moveCursorLeft();
+
 /**
   * @brief  Enables raw mode in the console.
   * @param  None
@@ -76,6 +81,8 @@ static void disableRawMode();
   * @note   This function moves the cursor back by one character in the console.
   */
 static void moveCursorBack();
+
+static void handleInput(char buffer[], int* index);
 
 /**
   * @brief  Reads a single character from the console.

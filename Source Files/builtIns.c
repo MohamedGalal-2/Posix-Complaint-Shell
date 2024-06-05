@@ -8,60 +8,50 @@
  * @param command The command to search for.
  * @return int Returns 1 if the command is found in the PATH, otherwise returns 0.
  */
-int searchExecutableInPath(char* command) 
+int searchExecutableInPath(const char* command) 
 {
-	// Get the value of the PATH environment variable
-	char* pathEnvVar = getenv("PATH");
-	if (pathEnvVar == NULL) 
+	// Get the PATH environment variable
+	char* path_env;
+	size_t size;
+	if (_dupenv_s(&path_env, &size, "PATH") != 0 || path_env == NULL) 
 	{
-		return 0; // PATH environment variable not found
-	}
-
-	char* pathEnvCopy = strdup(pathEnvVar); // Create a copy of the PATH environment variable
-	if (pathEnvCopy == NULL) 
-	{
-		fprintf(stderr, "Memory allocation failed for pathEnvCopy.\n");
+		fprintf(stderr, "Error getting PATH environment variable.\n");
 		return 0;
 	}
 
-	char* token = strtok(pathEnvCopy, ";"); // Tokenize PATH using semicolon as delimiter
-
+	// Tokenize the PATH variable to get individual directories
+	char* path_copy = strdup(path_env);
+	char* token = strtok(path_copy, ";");
 	while (token != NULL) 
 	{
-		// Construct the full path to the executable by concatenating the token and the command
-		char fullPath[MAX_PATH];
-		snprintf(fullPath, sizeof(fullPath), "%s\\%s", token, command);
-
-		// Check if the file exists at the constructed path
-		if (GetFileAttributes(fullPath) != INVALID_FILE_ATTRIBUTES) 
+		// Concatenate the directory path with the command name
+		size_t full_path_len = strlen(token) + strlen(command) + 1;
+		char* full_path = (char*)malloc(full_path_len);
+		if (full_path == NULL) 
 		{
-			free(pathEnvCopy); // Free the memory allocated for pathEnvCopy
-			return 1; // Executable file found
+			fprintf(stderr, "Memory allocation failed.\n");
+			free(path_copy);
+			return 0;
+		}
+		snprintf(full_path, full_path_len, "%s\\%s", token, command);
+
+		// Check if the concatenated path is an executable file
+		if (GetFileAttributes(full_path) != INVALID_FILE_ATTRIBUTES) 
+		{
+			printf("%s is %s\n", command, full_path);
+			free(path_copy);
+			free(path_env);
+			free(full_path);
+			return 1;
 		}
 
-		token = strtok(NULL, ";"); // Move to the next token
+		free(full_path);
+		token = strtok(NULL, ";");
 	}
 
-	free(pathEnvCopy); // Free the memory allocated for pathEnvCopy
-	return 0; // Executable file not found
-}
-
-void echo(const char* argument) 
-{
-	// Dealing with empty string or NULL pointer
-	if (argument == NULL || *argument == '\0') 
-	{
-		printf("\n");
-	}
-	else 
-	{
-		char* cleanedArgument = removeNewLine(argument); // Assuming removeNewLine returns a cleaned string
-		if (cleanedArgument != NULL) 
-		{
-			printf("%s\n", cleanedArgument);
-			free(cleanedArgument); // Free the memory allocated by removeNewLine
-		}
-	}
+	free(path_copy);
+	free(path_env);
+	return 0;
 }
 
 void type(char* command) 
@@ -124,7 +114,8 @@ void type(char* command)
 		{
 			// Check if the command is an executable file
 			int pathFlag = searchExecutableInPath(currentCommand);
-			if (pathFlag == 1) {
+			if (pathFlag == 1) 
+			{
 				printf("%s", currentCommand);
 			}
 			else 
@@ -143,6 +134,24 @@ void type(char* command)
 
 	// Free memory allocated for tokens
 	freeTokens(tokens, tokenCount);
+}
+
+void echo(const char* argument)
+{
+	// Dealing with empty string or NULL pointer
+	if (argument == NULL || *argument == '\0')
+	{
+		printf("\n");
+	}
+	else
+	{
+		char* cleanedArgument = removeNewLine(argument); // Assuming removeNewLine returns a cleaned string
+		if (cleanedArgument != NULL)
+		{
+			printf("%s\n", cleanedArgument);
+			free(cleanedArgument); // Free the memory allocated by removeNewLine
+		}
+	}
 }
 
 void help()

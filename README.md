@@ -66,9 +66,10 @@ This shell provides several built-in commands:
   ./script.sh
   ```
 
-- **type**: Displays if a command is a built-in command or an external command.
+- **type**: Displays if a command is a built-in command.
   ```sh
   type ls
+  type cd type ls
   ```
 
 - **echo**: Prints a string to the terminal or writes a string into a file using the `>` symbol.
@@ -82,9 +83,11 @@ This shell provides several built-in commands:
   pwd
   ```
 
-- **help**: Lists the available commands.
+- **help [command]**: Lists the available commands or displays information about a specific command.
   ```sh
   help
+  help cd
+  help cd help type
   ```
 
 - **exit [n]**: Exits the shell with an optional exit status.

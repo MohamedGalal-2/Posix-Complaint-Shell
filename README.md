@@ -41,6 +41,7 @@ You can then enter commands as you would in a standard shell. Type `exit` to qui
 - Piping: Allows command piping.
 - Environment variables: Handles environment variables.
 - Background execution: Supports running processes in the background.
+- Home directory shortcut: Supports using ~ as the home directory.
 
 ### Examples
 Here are some example commands you can try in the shell:

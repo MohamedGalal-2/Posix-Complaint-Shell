@@ -50,7 +50,8 @@ This shell provides several built-in commands:
 
 - **cat**: Concatenates and displays the contents of files.
   ```sh
-  cat file1.txt file2.txt
+  cat file.txt
+  cat file1.txt > file2.txt
   ```
 
 - **ls**: Lists the files in the current directory. Supports options `[-a]`, `[-f]`, and `[-af]`, as well as specifying a path.

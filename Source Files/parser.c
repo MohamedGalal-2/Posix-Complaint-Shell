@@ -50,6 +50,21 @@ char* removeNewLine(char* str)
     return str;
 }
 
+char* removeDotSlash(char* str)
+{
+	/**
+	  * @brief Removes the "./" prefix from a string.
+	  * @param str The string from which the prefix will be removed.
+	  * @return char* Pointer to the modified string.
+	  */
+	
+	if (strncmp(str, "./", 2) == 0) 
+	{
+		return str + 2;
+	}
+	return str;
+}
+
 char* getCommand(char* buffer)
 {
     /**

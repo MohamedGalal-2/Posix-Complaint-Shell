@@ -43,6 +43,14 @@ char* removeLastSpaces(char* str);
 char* removeNewLine(char* str);
 
 /**
+  * @brief  Removes the "./" prefix from the input string.
+  * @param  str: The input string.
+  * @return char*: The input string without the "./" prefix.
+  * @note   This function removes the "./" prefix from the input string.
+  */
+char* removeDotSlash(char* str);
+
+/**
   * @brief  Extracts the command from the input buffer.
   * @param  buffer: The input buffer.
   * @return char*: The extracted command string.

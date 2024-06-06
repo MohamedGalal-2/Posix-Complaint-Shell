@@ -17,11 +17,16 @@
 #include <Windows.h>
 #include <sys/stat.h>
 #include <direct.h>
+#include <shellapi.h>
+#include <errno.h>
 #include "command_handling.h"
 #include "colors.h"
 
 /* Functions Prototype Section */
 int searchExecutableInPath(const char* command);
+void ls(const char* path, int showAll, int classify);
+int parseFlagsAndPath(char* argument, int* showAll, int* classify, char* path);
+void runFile(const char* fileName);
 void echo(char* argument);
 void type(char* command);
 void help();

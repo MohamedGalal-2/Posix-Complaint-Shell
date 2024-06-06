@@ -23,6 +23,13 @@ int ifExist(char *buffer)
     int i = 0;
     int flag = 0;
 
+    // Check if its a file run command
+    strcpy(buffer, removeLeadingSpaces(buffer));
+    if (buffer[0] == '.' && buffer[1] == '/')
+	{
+		return 3;
+	}
+
     while (i < 43)
     {
         if (strcmp(buffer, command[i]) == 0)
@@ -68,6 +75,13 @@ void commandCheck(char *buffer)
     {
         // Do nothing if the buffer is empty
     }
+    else if (flag == 3)
+	{
+		// remove ./ from the command
+        buffer = removeDotSlash(buffer);
+        // Run the file
+		runFile(buffer);
+	}
     else
     {
         buffer = removeNewLine(buffer);

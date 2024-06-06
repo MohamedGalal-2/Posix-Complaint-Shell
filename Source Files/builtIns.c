@@ -6,7 +6,8 @@ int followLinks = 1;			// Default behavior is to follow symbolic links
 
 /*Functions Definition Section */
 
-void cd(char* path) {
+void cd(char* path) 
+{
 	// Check if the path is provided
 	if (path == NULL || *path == '\0') {
 		// Change to user's home directory
@@ -16,8 +17,8 @@ void cd(char* path) {
 			if (!SetCurrentDirectoryA(homeDir)) {
 				fprintf(stderr, "Error: Unable to change directory to %s\n", homeDir);
 			}
-			else {
-				printf("Changed directory to %s\n", homeDir);
+			else 
+			{
 			}
 		}
 		else {
@@ -48,7 +49,8 @@ void cd(char* path) {
 	if (tildePos != NULL && (!quoted || tildePos < strchr(path, '"'))) {
 		// Replace the "~" with the user's home directory path
 		char homeDir[MAX_PATH];
-		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) {
+		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) 
+		{
 			// Calculate the new path length
 			int newPathLen = strlen(homeDir) + strlen(tildePos + 1);
 			if (newPathLen >= MAX_PATH) {
@@ -111,8 +113,8 @@ void cd(char* path) {
 			if (!SetCurrentDirectoryA(target)) {
 				fprintf(stderr, "Error: Unable to change directory to %s\n", target);
 			}
-			else {
-				printf("Changed directory to %s\n", target);
+			else 
+			{
 			}
 		}
 		else {
@@ -120,8 +122,9 @@ void cd(char* path) {
 			if (!SetCurrentDirectoryA(path)) {
 				fprintf(stderr, "Error: Unable to change directory to %s\n", path);
 			}
-			else {
-				printf("Changed directory to %s\n", path);
+			else 
+			{
+
 			}
 		}
 	}
@@ -130,8 +133,9 @@ void cd(char* path) {
 		if (!SetCurrentDirectoryA(path)) {
 			fprintf(stderr, "Error: Unable to change directory to %s\n", path);
 		}
-		else {
-			printf("Changed directory to %s\n", path);
+		else 
+		{
+
 		}
 	}
 }
@@ -139,17 +143,24 @@ void cd(char* path) {
 void cat(const char* argument) {
 	char* input_file = NULL;
 	char* output_file = NULL;
+	char* output_symbol = NULL;
 	FILE* input_fp = NULL;
 	FILE* output_fp = NULL;
 
+	// Check for null argument
+	if (argument == NULL) {
+		return;
+	}
+
 	// Find the position of the output redirection symbol '>'
-	char* output_symbol = strchr(argument, '>');
+	output_symbol = strchr(argument, '>');
 	if (output_symbol != NULL) {
 		// Extract input file name
 		size_t input_len = output_symbol - argument;
 		input_file = (char*)malloc((input_len + 1) * sizeof(char));
 		strncpy(input_file, argument, input_len);
 		input_file[input_len] = '\0';
+		trimWhitespace(input_file);
 
 		// Extract output file name
 		output_file = _strdup(output_symbol + 1); // Skip '>'
@@ -157,6 +168,7 @@ void cat(const char* argument) {
 	}
 	else {
 		input_file = _strdup(argument);
+		trimWhitespace(input_file);
 	}
 
 	// Open input file for reading
@@ -186,6 +198,8 @@ void cat(const char* argument) {
 		}
 	}
 
+	printf("\n");
+
 cleanup:
 	// Close files
 	if (input_fp != NULL) {
@@ -202,14 +216,17 @@ cleanup:
 
 void ls(const char* path, int showAll, int classify, int classAll) {
 	// Check if the path is NULL or empty
-	if (path == NULL || path[0] == '\0') {
+	if (path == NULL || path[0] == '\0') 
+	{
 		// Use the current directory if no path is provided
 		path = ".";
 	}
-	else if (path[0] == '~') {
+	else if (path[0] == '~') 
+	{
 		// Get the user's home directory
 		char homeDir[MAX_PATH];
-		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) {
+		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) 
+		{
 			// Concatenate the home directory with the remaining path
 			char newPath[MAX_PATH];
 			snprintf(newPath, MAX_PATH, "%s%s", homeDir, path + 1); // Skip the '~' character
@@ -217,7 +234,8 @@ void ls(const char* path, int showAll, int classify, int classAll) {
 			ls(newPath, showAll, classify, classAll);
 			return;
 		}
-		else {
+		else 
+		{
 			fprintf(stderr, "Error: Unable to get user's home directory\n");
 			return;
 		}
@@ -236,7 +254,8 @@ void ls(const char* path, int showAll, int classify, int classAll) {
 		return;
 	}
 
-	do {
+	do 
+	{
 		if (classAll)
 		{
 			// print all the files and add a slash for directories
@@ -249,7 +268,6 @@ void ls(const char* path, int showAll, int classify, int classAll) {
 			{
 				printf("*");
 			}
-
 		}
 		else if(!showAll && (fileinfo.name[0] == '.')) 
 		{
@@ -258,7 +276,8 @@ void ls(const char* path, int showAll, int classify, int classAll) {
 		else if (classify) 
 		{
 			printf("%s", fileinfo.name);
-			if (fileinfo.attrib & _A_SUBDIR) {
+			if (fileinfo.attrib & _A_SUBDIR) 
+			{
 				printf("/");
 			}
 			else {
@@ -277,7 +296,8 @@ void ls(const char* path, int showAll, int classify, int classAll) {
 	_findclose(handle);
 }
 
-int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path) {
+int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path) 
+{
 	*showAll = 0;
 	*classify = 0;
 	*classAll = 0;
@@ -298,7 +318,8 @@ int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll
 		{
 			*classify = 1;
 		}
-		else {
+		else 
+		{
 			// Remove double quotes if present
 			if (token[0] == '"' && token[strlen(token) - 1] == '"')
 			{
@@ -591,7 +612,7 @@ void echo(const char* argument) {
 
 void help(char* command)
 {
-	if (command == NULL || strlen(command) == 0) 
+	if (command == NULL || strlen(command) == 0)
 	{
 		// Print general help information
 		printf("\n");
@@ -619,8 +640,13 @@ void help(char* command)
 		printf("help [-dms] [pattern ...]\n");
 		printf("    Display information about built-in commands.\n");
 		printf("\n");
-		printf("ls [-af] [file ...]\n");
+		printf("ls [-a -f -af] [file ...]\n");
 		printf("    List directory contents.\n");
+		printf("\n");
+		printf("cat [file] or cat [file] < [file]\n");
+		printf("    Concatenate files and print on the standard output.\n");
+		printf("\n");
+		printf("Supports command piping using the `|` operator.\n");
 		printf("\n");
 		printf("For more information on a specific command, type `help <command>'.\n");
 		printf("\n");
@@ -630,42 +656,42 @@ void help(char* command)
 		char* token = strtok(command, " ");
 		while (token != NULL) {
 			// Display information about each command token
-			if (strcmp(token, "cd") == 0) 
+			if (strcmp(token, "cd") == 0)
 			{
 				printf("\n");
 				printf("cd: cd [-L|[-P [-e]] [-@]] [dir]\n");
 				printf("    Change the shell working directory.\n");
 				printf("\n");
 			}
-			else if (strcmp(token, "exit") == 0) 
+			else if (strcmp(token, "exit") == 0)
 			{
 				printf("\n");
 				printf("exit: exit [n]\n");
 				printf("    Exit the shell.\n");
 				printf("\n");
 			}
-			else if (strcmp(token, "echo") == 0) 
+			else if (strcmp(token, "echo") == 0)
 			{
 				printf("\n");
 				printf("echo: echo [-neE] [arg ...]\n");
 				printf("    Write arguments to the standard output.\n");
 				printf("\n");
 			}
-			else if (strcmp(token, "pwd") == 0) 
+			else if (strcmp(token, "pwd") == 0)
 			{
 				printf("\n");
 				printf("pwd: pwd [-LP]\n");
 				printf("    Print the current working directory.\n");
 				printf("\n");
 			}
-			else if (strcmp(token, "type") == 0) 
+			else if (strcmp(token, "type") == 0)
 			{
 				printf("\n");
 				printf("type: type [-afptP] name [name ...]\n");
 				printf("    Indicate how each name would be interpreted if used as a command name.\n");
 				printf("\n");
 			}
-			else if (strcmp(token, "help") == 0) 
+			else if (strcmp(token, "help") == 0)
 			{
 				printf("\n");
 				printf("help: help [-dms] [pattern ...]\n");
@@ -677,6 +703,13 @@ void help(char* command)
 				printf("\n");
 				printf("ls: ls [-af] [file ...]\n");
 				printf("    List directory contents.\n");
+				printf("\n");
+			}
+			else if (strcmp(token, "cat") == 0)
+			{
+				printf("\n");
+				printf("cat [file] or cat [file] < [file]\n");
+				printf("    Concatenate files and print on the standard output.\n");
 				printf("\n");
 			}
 			else {
@@ -774,7 +807,8 @@ int handleBuiltIns(char* command, char* buffer)
 		{
 			parseFlagsAndPath(argument, &showAll, &classify, &classAll, path);
 		}
-		else {
+		else 
+		{
 			_getcwd(path, MAX_PATH);
 		}
 

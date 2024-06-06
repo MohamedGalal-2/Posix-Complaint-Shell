@@ -8,7 +8,7 @@ This repository hosts a POSIX-compliant shell implementation tailored for Window
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Features](#features)
+- [Commands](#commands)
 - [Examples](#examples)
 - [Contributing](#contributing)
 - [License](#license)
@@ -39,17 +39,61 @@ Start the shell by running the compiled executable:
 
 You can then enter commands as you would in a standard shell. Type `exit` to quit the shell.
 
-### Features
-This shell brings POSIX-compliant features to Windows, including:
-- Command execution: Executes built-in and external commands.
-- Redirection: Supports input and output redirection.
-- Piping: Allows command piping.
-- Environment variables: Handles environment variables.
-- Background execution: Supports running processes in the background.
-- Home directory shortcut: Supports using `~` as the home directory.
+### Commands
+This shell provides several built-in commands:
+
+- **cd**: Changes the current directory. Supports `~` as a home directory shortcut.
+  ```sh
+  cd ~
+  cd ~/Documents
+  ```
+
+- **cat**: Concatenates and displays the contents of files.
+  ```sh
+  cat file1.txt file2.txt
+  ```
+
+- **ls**: Lists the files in the current directory. Supports options `[-a]`, `[-f]`, and `[-af]`, as well as specifying a path.
+  ```sh
+  ls
+  ls -a
+  ls /path/to/directory
+  ```
+
+- **./[file]**: Executes a file in the current directory.
+  ```sh
+  ./script.sh
+  ```
+
+- **type**: Displays if a command is a built-in command or an external command.
+  ```sh
+  type ls
+  ```
+
+- **echo**: Prints a string to the terminal or writes a string into a file using the `>` symbol.
+  ```sh
+  echo "Hello, World!"
+  echo "Hello, World!" > output.txt
+  ```
+
+- **pwd**: Displays the current working directory.
+  ```sh
+  pwd
+  ```
+
+- **help**: Lists the available commands.
+  ```sh
+  help
+  ```
+
+- **exit [n]**: Exits the shell with an optional exit status.
+  ```sh
+  exit
+  exit 0
+  ```
 
 ### Examples
-Explore some commands that were traditionally associated with POSIX systems but may not be supported natively in Windows:
+Explore some commands that are traditionally associated with POSIX systems but may not be supported natively in Windows:
 
 ```sh
 # Running a simple command

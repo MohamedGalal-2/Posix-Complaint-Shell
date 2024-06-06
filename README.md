@@ -1,10 +1,11 @@
-# Posix-Compliant-Shell
+# Posix-Compliant-Shell-For-Windows
 
-This repository contains a POSIX-compliant shell implementation written in C. The shell provides a basic command-line interface for interacting with the operating system.
+This repository hosts a POSIX-compliant shell implementation tailored for Windows environments. The shell aims to provide a familiar command-line interface while bridging the gap between POSIX standards and Windows-specific limitations.
 
 ![Header](https://github.com/MohamedGalal-2/Posix-Complaint-Shell/blob/main/asset.jpg)
 
 ## Table of Contents
+- [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
@@ -12,8 +13,11 @@ This repository contains a POSIX-compliant shell implementation written in C. Th
 - [Contributing](#contributing)
 - [License](#license)
 
+### Introduction
+While Windows offers its command-line interface, it lacks some features and commands present in POSIX-compliant systems like Unix and Linux. This shell project aims to provide those missing functionalities in a Windows environment.
+
 ### Installation
-Clone this repository using the following command:
+To install the shell, clone this repository using the following command:
 
 ```bash
 git clone https://github.com/MohamedGalal-2/Posix-Compliant-Shell.git
@@ -27,7 +31,7 @@ gcc -o posix_shell main.c shell.c builtIns.c colors.c command_handling.c parser.
 ```
 
 ### Usage
-To start the shell, run the compiled executable:
+Start the shell by running the compiled executable:
 
 ```bash
 ./posix_shell
@@ -36,15 +40,16 @@ To start the shell, run the compiled executable:
 You can then enter commands as you would in a standard shell. Type `exit` to quit the shell.
 
 ### Features
+This shell brings POSIX-compliant features to Windows, including:
 - Command execution: Executes built-in and external commands.
 - Redirection: Supports input and output redirection.
 - Piping: Allows command piping.
 - Environment variables: Handles environment variables.
 - Background execution: Supports running processes in the background.
-- Home directory shortcut: Supports using ~ as the home directory.
+- Home directory shortcut: Supports using `~` as the home directory.
 
 ### Examples
-Here are some example commands you can try in the shell:
+Explore some commands that were traditionally associated with POSIX systems but may not be supported natively in Windows:
 
 ```sh
 # Running a simple command
@@ -65,7 +70,7 @@ sleep 60 &
 ```
 
 ### Contributing
-Contributions are welcome! Please fork this repository, make your changes, and submit a pull request.
+Contributions are welcome! If you have ideas or improvements, please fork this repository, make your changes, and submit a pull request.
 
 ### License
 This repository is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.

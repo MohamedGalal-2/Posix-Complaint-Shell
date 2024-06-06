@@ -132,6 +132,7 @@ int parseFlagsAndPath(char* argument, int* showAll, int* classify, char* path) {
 }
 
 
+
 void runFile(const char* fileName) {
 	// Attempt to open the file
 	HINSTANCE result = ShellExecute(NULL, "OPEN", fileName, NULL, NULL, SW_SHOWNORMAL);
@@ -158,7 +159,6 @@ void runFile(const char* fileName) {
 		printf("File ran successfully: %s\n", fileName);
 	}
 }
-
 
 
 

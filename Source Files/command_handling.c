@@ -58,8 +58,8 @@ void commandCheck(char *buffer)
       *         and then either invokes the corresponding built-in function or prints an error message.
       */
 
-    char Command[128];
-    char Argument[128];
+    char Command[1024];
+    char Argument[1024];
 
     // Get the command
     strcpy(Command, getCommand(buffer));

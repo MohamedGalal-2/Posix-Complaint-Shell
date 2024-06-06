@@ -101,10 +101,10 @@ Explore some commands that are traditionally associated with POSIX systems but m
 
 ```sh
 # Running a simple command
-ls -l
+ls -a
 
 # Using input and output redirection
-cat < input.txt > output.txt
+cat input.txt > output.txt
 
 # Piping commands
 ls -l | grep ".c"

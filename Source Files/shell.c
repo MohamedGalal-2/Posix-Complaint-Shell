@@ -67,7 +67,9 @@ static void info()
     blue();
     printf("%s", userInfo.currentPath);
     reset();
+    yellow();
     printf("$ ");
+    reset();
 }
 
 static void get_Input()

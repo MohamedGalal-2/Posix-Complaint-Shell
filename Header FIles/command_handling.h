@@ -12,8 +12,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <Windows.h>
+#include "builtIns.h"
 #include "colors.h" 
 #include "parser.h" 
+#include "tokenizer.h"
 
 /* Functions Prototypes Section */
 
@@ -34,4 +37,8 @@ int ifExist(char* buffer);
  */
 void commandCheck(char* buffer);
 
+void executeCommandsSequentially(char** commands, int commandCount);
+
 #endif // _COMMAND_HANDLING_H_
+
+

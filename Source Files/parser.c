@@ -74,7 +74,7 @@ char* getCommand(char* buffer)
       */
     
     // Remove leading spaces
-    strcpy(buffer, removeLeadingSpaces(buffer));
+    // strcpy(buffer, removeLeadingSpaces(buffer));
 
     // Allocate memory for the command string
     char* command = (char*)malloc(strlen(buffer) + 1); // +1 for null terminator

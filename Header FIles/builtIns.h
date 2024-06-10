@@ -22,25 +22,25 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <shlwapi.h>
+#include "parser.h"
 #include "command_handling.h"
 #include "colors.h"
+#include "cat.h"
+#include "cd.h"
+#include "ls.h"
 
 #define BUFSIZE 4096
 
 
 /* Functions Prototype Section */
-void trimWhitespace(char* str);
-void cd(char* path);
-void cat(const char* argument);
-void ls(const char* path, int showAll, int classify, int classAll);
-int parseFlagsAndPath(char* argument, int* showAll, int* classify, char* path);
+int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path);
 void runFile(const char* fileName);
 bool checkForGreaterThan(const char* input);
 void echoFile(const char* argument);
-void echo(char* argument);
+void echo(const char* argument);
 void type(char* command);
 void help(char* command);
 void pwd(int showLogical, int showPhysical);
-int handleBuiltIns(char* command, char* argument);
+int handleBuiltIns(char* command, char* buffer);
 
 #endif // _BUILTINS_H

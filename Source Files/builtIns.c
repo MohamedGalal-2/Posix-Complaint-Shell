@@ -1,4 +1,3 @@
-/* Includes Section */
 #include "..\Header Files\builtIns.h"
 
 /* Global Variables Section */
@@ -6,347 +5,84 @@ int followLinks = 1;			// Default behavior is to follow symbolic links
 
 /*Functions Definition Section */
 
-void cd(char* path) 
-{
-	// Check if the path is provided
-	if (path == NULL || *path == '\0') {
-		// Change to user's home directory
-		char homeDir[MAX_PATH];
-		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) {
-			// Change directory to the user's home directory
-			if (!SetCurrentDirectoryA(homeDir)) {
-				fprintf(stderr, "Error: Unable to change directory to %s\n", homeDir);
-			}
-			else 
-			{
-			}
-		}
-		else {
-			fprintf(stderr, "Error: Unable to get user's home directory\n");
-		}
-		return;
-	}
-
-	// Check if the path starts with "-L"
-	bool followLink = false;
-	if (strncmp(path, "-L", 2) == 0) {
-		followLink = true;
-		// Move past the "-L" argument
-		path += 2;
-		while (*path == ' ') path++; // Remove leading spaces
-	}
-
-	// Check if the path is enclosed in double quotes
-	bool quoted = false;
-	if (*path == '"') {
-		quoted = true;
-		// Move past the opening double quote
-		path++;
-	}
-
-	// Check if the path starts with "~"
-	char* tildePos = strchr(path, '~');
-	if (tildePos != NULL && (!quoted || tildePos < strchr(path, '"'))) {
-		// Replace the "~" with the user's home directory path
-		char homeDir[MAX_PATH];
-		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) 
-		{
-			// Calculate the new path length
-			int newPathLen = strlen(homeDir) + strlen(tildePos + 1);
-			if (newPathLen >= MAX_PATH) {
-				fprintf(stderr, "Error: New path exceeds maximum length\n");
-				return;
-			}
-			// Construct the new path
-			char newPath[MAX_PATH];
-			strncpy(newPath, path, tildePos - path);
-			strcpy(newPath + (tildePos - path), homeDir);
-			strcat(newPath, tildePos + 1);
-			strcpy(path, newPath);
-		}
-		else {
-			fprintf(stderr, "Error: Unable to get user's home directory\n");
-			return;
-		}
-	}
-
-	// Strip trailing double quote if present
-	int len = strlen(path);
-	if (quoted && path[len - 1] == '"') {
-		path[len - 1] = '\0';
-	}
-
-	// Check if the path is a symbolic link
-	if (followLink) {
-		printf("Debug: Attempting to resolve symbolic link %s\n", path);
-		// Resolve symbolic link
-		char targetPath[MAX_PATH];
-		DWORD length = GetFullPathNameA(path, MAX_PATH, targetPath, NULL);
-		if (length == 0 || length >= MAX_PATH) {
-			fprintf(stderr, "Error: Unable to resolve symbolic link %s\n", path);
-			return;
-		}
-
-		printf("Debug: Resolved symbolic link %s to target %s\n", path, targetPath);
-
-		WIN32_FIND_DATAA findFileData;
-		HANDLE hFind = FindFirstFileA(targetPath, &findFileData);
-		if (hFind == INVALID_HANDLE_VALUE) {
-			fprintf(stderr, "Error: Unable to find file %s\n", targetPath);
-			return;
-		}
-		FindClose(hFind);
-
-		if ((findFileData.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
-			// Symbolic link detected, get the target path
-			CHAR target[MAX_PATH];
-			DWORD dwResult = GetFinalPathNameByHandleA(hFind, target, MAX_PATH, FILE_NAME_NORMALIZED);
-			if (dwResult == 0 || dwResult >= MAX_PATH) {
-				fprintf(stderr, "Error: Unable to resolve symbolic link %s\n", path);
-				return;
-			}
-			else {
-				printf("Debug: Resolved symbolic link %s to target %s\n", path, target);
-			}
-
-			// Change directory to the target
-			if (!SetCurrentDirectoryA(target)) {
-				fprintf(stderr, "Error: Unable to change directory to %s\n", target);
-			}
-			else 
-			{
-			}
-		}
-		else {
-			// Not a symbolic link, change directory to the original path
-			if (!SetCurrentDirectoryA(path)) {
-				fprintf(stderr, "Error: Unable to change directory to %s\n", path);
-			}
-			else 
-			{
-
-			}
-		}
-	}
-	else {
-		// Change directory to the provided path directly
-		if (!SetCurrentDirectoryA(path)) {
-			fprintf(stderr, "Error: Unable to change directory to %s\n", path);
-		}
-		else 
-		{
-
-		}
-	}
-}
-
-void cat(const char* argument) {
-	char* input_file = NULL;
-	char* output_file = NULL;
-	char* output_symbol = NULL;
-	FILE* input_fp = NULL;
-	FILE* output_fp = NULL;
-
-	// Check for null argument
-	if (argument == NULL) {
-		return;
-	}
-
-	// Find the position of the output redirection symbol '>'
-	output_symbol = strchr(argument, '>');
-	if (output_symbol != NULL) {
-		// Extract input file name
-		size_t input_len = output_symbol - argument;
-		input_file = (char*)malloc((input_len + 1) * sizeof(char));
-		strncpy(input_file, argument, input_len);
-		input_file[input_len] = '\0';
-		trimWhitespace(input_file);
-
-		// Extract output file name
-		output_file = _strdup(output_symbol + 1); // Skip '>'
-		trimWhitespace(output_file);
-	}
-	else {
-		input_file = _strdup(argument);
-		trimWhitespace(input_file);
-	}
-
-	// Open input file for reading
-	input_fp = fopen(input_file, "r");
-	if (input_fp == NULL) {
-		fprintf(stderr, "Error: Unable to open input file %s\n", input_file);
-		goto cleanup;
-	}
-
-	// Open output file for writing if provided
-	if (output_file != NULL) {
-		output_fp = fopen(output_file, "w");
-		if (output_fp == NULL) {
-			fprintf(stderr, "Error: Unable to open output file %s\n", output_file);
-			goto cleanup;
-		}
-	}
-
-	// Read from input file and write to output file if provided, else print to stdout
-	char buffer[1024];
-	while (fgets(buffer, sizeof(buffer), input_fp) != NULL) {
-		if (output_fp != NULL) {
-			fputs(buffer, output_fp);
-		}
-		else {
-			printf("%s", buffer);
-		}
-	}
-
-	printf("\n");
-
-cleanup:
-	// Close files
-	if (input_fp != NULL) {
-		fclose(input_fp);
-	}
-	if (output_fp != NULL) {
-		fclose(output_fp);
-	}
-
-	// Free memory
-	free(input_file);
-	free(output_file);
-}
-
-void ls(const char* path, int showAll, int classify, int classAll) {
-	// Check if the path is NULL or empty
-	if (path == NULL || path[0] == '\0') 
-	{
-		// Use the current directory if no path is provided
-		path = ".";
-	}
-	else if (path[0] == '~') 
-	{
-		// Get the user's home directory
-		char homeDir[MAX_PATH];
-		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0) 
-		{
-			// Concatenate the home directory with the remaining path
-			char newPath[MAX_PATH];
-			snprintf(newPath, MAX_PATH, "%s%s", homeDir, path + 1); // Skip the '~' character
-			// Call ls with the new path
-			ls(newPath, showAll, classify, classAll);
-			return;
-		}
-		else 
-		{
-			fprintf(stderr, "Error: Unable to get user's home directory\n");
-			return;
-		}
-	}
-
-	// Construct the search path
-	char searchPath[MAX_PATH + 1];
-	snprintf(searchPath, sizeof(searchPath), "%s\\*.*", path);
-
-	// Use _findfirst and _findnext to iterate through the directory contents
-	struct _finddata_t fileinfo;
-	intptr_t handle = _findfirst(searchPath, &fileinfo);
-
-	if (handle == -1) {
-		fprintf(stderr, "Unable to list directory contents. Error Code: %d\n", errno);
-		return;
-	}
-
-	do 
-	{
-		if (classAll)
-		{
-			// print all the files and add a slash for directories
-			printf("%s", fileinfo.name);
-			if (fileinfo.attrib & _A_SUBDIR)
-			{
-				printf("/");
-			}
-			else
-			{
-				printf("*");
-			}
-		}
-		else if(!showAll && (fileinfo.name[0] == '.')) 
-		{
-			continue;
-		}
-		else if (classify) 
-		{
-			printf("%s", fileinfo.name);
-			if (fileinfo.attrib & _A_SUBDIR) 
-			{
-				printf("/");
-			}
-			else {
-				printf("*");
-			}
-			// Print only the file name
-		}
-		else 
-		{
-			printf("%s", fileinfo.name);
-		}
-
-		printf("\n");
-	} while (_findnext(handle, &fileinfo) == 0);
-
-	_findclose(handle);
-}
-
-int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path) 
+int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path)
 {
 	*showAll = 0;
 	*classify = 0;
 	*classAll = 0;
 	path[0] = '\0';
 
+	// Trim the leading and trailing spaces
+	trimWhitespace(argument);
+
+	if (argument == NULL || strlen(argument) == 0)
+	{
+		return 0;
+	}
+
 	char* token = strtok(argument, " ");
-	while (token != NULL) 
+
+	// Check if flags are provided
+	while (token != NULL && token[0] == '-')
 	{
 		if (strcmp(token, "-af") == 0)
 		{
 			*classAll = 1;
 		}
-		else if (strcmp(token, "-a") == 0) 
+		else if (strcmp(token, "-a") == 0)
 		{
 			*showAll = 1;
 		}
-		else if (strcmp(token, "-f") == 0) 
+		else if (strcmp(token, "-f") == 0)
 		{
 			*classify = 1;
 		}
-		else 
-		{
-			// Remove double quotes if present
-			if (token[0] == '"' && token[strlen(token) - 1] == '"')
-			{
-				token[strlen(token) - 1] = '\0';
-				token++;
-			}
-			strncpy(path, token, MAX_PATH);
-		}
+
+		// Move to the next token
 		token = strtok(NULL, " ");
 	}
 
-	// If no path is specified, use the current working directory
-	if (strlen(path) == 0) 
+	// Process the remaining part of the argument as the path
+	if (token != NULL)
+	{
+		strcpy(path, token);
+	}
+
+	// Check if the path is a ~
+	if (path[0] == '~')
+	{
+		// Get the user's home directory
+		char homeDir[MAX_PATH];
+		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0)
+		{
+			// Concatenate the home directory with the remaining path
+			char newPath[MAX_PATH];
+			snprintf(newPath, MAX_PATH, "%s%s", homeDir, path + 1); // Skip the '~' character
+			// Call ls with the new path
+			ls(newPath, *showAll, *classify, *classAll);
+			return 0;
+		}
+		else
+		{
+			fprintf(stderr, "Error: Unable to get user's home directory\n");
+			return 0;
+		}
+	}
+	else if (strlen(path) == 0)
 	{
 		_getcwd(path, MAX_PATH);
 	}
 
-	return 1;
+	return 0;
 }
 
-void runFile(const char* fileName) 
+void runFile(const char* fileName)
 {
 	// Use system command to execute the file
 	int result = system(fileName);
 
 	// Check the result of the system command
-	if (result == -1) 
+	if (result == -1)
 	{
 		// Failed to execute the file
 		fprintf(stderr, "Failed to run file: %s\n", fileName);
@@ -430,33 +166,19 @@ void type(char* command)
 	freeTokens(tokens, tokenCount);
 }
 
-void trimWhitespace(char* str) 
-{
-	// Trim leading whitespace
-	char* start = str;
-	while (*start && isspace((unsigned char)*start)) {
-		start++;
-	}
-
-	// Move the non-whitespace part to the beginning of the string
-	memmove(str, start, strlen(start) + 1);
-
-	// Trim trailing whitespace
-	char* end = str + strlen(str) - 1;
-	while (end > str && isspace((unsigned char)*end)) {
-		end--;
-	}
-
-	// Null-terminate the string at the last non-whitespace character
-	*(end + 1) = '\0';
-}
-
-bool checkForGreaterThan(const char *input) 
+bool checkForGreaterThan(const char* input)
 {
 	bool inside_quotes = false;
 
-	for (int i = 0; input[i] != '\0'; i++) {
-		if (input[i] == '"') {
+	if (input == NULL)
+	{
+		return false;
+	}
+
+	for (int i = 0; input[i] != '\0'; i++) 
+	{
+		if (input[i] == '"') 
+		{
 			inside_quotes = !inside_quotes;
 		}
 		else if (input[i] == '>' && !inside_quotes) {
@@ -467,7 +189,7 @@ bool checkForGreaterThan(const char *input)
 	return false; // '>' operand not found outside of double quotes
 }
 
-void echoFile(const char *argument) 
+void echoFile(const char* argument)
 {
 	// Extracting filename after the '>' operand
 	const char* ptr = argument;
@@ -493,7 +215,7 @@ void echoFile(const char *argument)
 	// Writing content to the file
 
 	// Skip double quotes if present
-	if (*argument == '\"') 
+	if (*argument == '\"')
 	{
 		argument++;
 		while (*argument != '\"' && *argument != '\0') {
@@ -501,10 +223,10 @@ void echoFile(const char *argument)
 			argument++;
 		}
 	}
-	else 
+	else
 	{
 		// print the argument till the > operand
-		while (*argument != '>' && *argument != '\0') 
+		while (*argument != '>' && *argument != '\0')
 		{
 			fprintf(file, "%c", *argument);
 			argument++;
@@ -724,18 +446,18 @@ void help(char* command)
 	}
 }
 
-void pwd(int showLogical, int showPhysical) 
+void pwd(int showLogical, int showPhysical)
 {
 	char cwd[1024];
-	if (showLogical && !showPhysical) 
+	if (showLogical && !showPhysical)
 	{
 		_getcwd(cwd, 1024);
 	}
-	else if (showPhysical && !showLogical) 
+	else if (showPhysical && !showLogical)
 	{
 		_fullpath(cwd, ".", 1024);
 	}
-	else 
+	else
 	{
 		// Both flags are either not provided or provided together
 		_getcwd(cwd, 1024);
@@ -743,24 +465,24 @@ void pwd(int showLogical, int showPhysical)
 	printf("%s\n", cwd);
 }
 
-int handleBuiltIns(char* command, char* buffer) 
+int handleBuiltIns(char* command, char* buffer)
 {
-	if (command == NULL || buffer == NULL) 
+	if (command == NULL || buffer == NULL)
 	{
-		return;
+		return 0; // Or any other appropriate error code
 	}
 
 	char* argument = getArgument(buffer);
 
-	if (strcmp(command, "help") == 0) 
+	if (strcmp(command, "help") == 0)
 	{
 		help(argument);
 	}
-	else if (strcmp(command, "echo") == 0) 
+	else if (strcmp(command, "echo") == 0)
 	{
 		checkForGreaterThan(argument) ? echoFile(argument) : echo(argument);
 	}
-	else if (strcmp(command, "exit") == 0) 
+	else if (strcmp(command, "exit") == 0)
 	{
 		if (argument != NULL) {
 			int exitCode = atoi(argument);
@@ -803,11 +525,31 @@ int handleBuiltIns(char* command, char* buffer)
 		int classAll = 0;
 		char path[MAX_PATH];
 
-		if (argument != NULL) 
+		if (argument != NULL)
 		{
 			parseFlagsAndPath(argument, &showAll, &classify, &classAll, path);
 		}
-		else 
+		else if (argument != NULL && argument[0] == '~')
+		{
+			// Get the user's home directory
+			char homeDir[MAX_PATH];
+			if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0)
+			{
+
+				// Concatenate the home directory with the remaining path
+				char newPath[MAX_PATH];
+				snprintf(newPath, MAX_PATH, "%s%s", homeDir, argument + 1); // Skip the '~' character
+				// Call ls with the new path
+				ls(newPath, showAll, classify, classAll);
+				return 0;
+			}
+			else
+			{
+				fprintf(stderr, "Error: Unable to get user's home directory\n");
+				return 1;
+			}
+		}
+		else
 		{
 			_getcwd(path, MAX_PATH);
 		}
@@ -817,12 +559,11 @@ int handleBuiltIns(char* command, char* buffer)
 	else if (strcmp(command, "cat") == 0) {
 		cat(argument);
 	}
-	else if (strcmp(command, "cd") == 0) 
+	else if (strcmp(command, "cd") == 0)
 	{
 		cd(argument);
 	}
 
-	else {
-		return 0;
-	}
+	return 0; // Or any other appropriate return value
 }
+

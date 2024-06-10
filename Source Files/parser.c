@@ -6,6 +6,7 @@
  /* Includes Section */
 #include "..\Header Files\parser.h"
 
+
 /* Function Definitions */
 
 char* removeLeadingSpaces(char* str) 
@@ -63,6 +64,32 @@ char* removeDotSlash(char* str)
 		return str + 2;
 	}
 	return str;
+}
+
+// Removes leading and trailing whitespace from a string
+void trimWhitespace(char* str)
+{
+    int start = 0;
+    int end = strlen(str) - 1;
+
+    // Find the position of the first non-whitespace character
+    while (isspace(str[start]))
+    {
+        start++;
+    }
+
+    // Find the position of the last non-whitespace character
+    while (end > start && isspace(str[end]))
+    {
+        end--;
+    }
+
+    // Shift the string to remove leading whitespace
+    if (start > 0)
+    {
+        memmove(str, str + start, end - start + 1);
+        str[end - start + 1] = '\0';
+    }
 }
 
 char* getCommand(char* buffer)

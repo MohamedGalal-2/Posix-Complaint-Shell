@@ -1,0 +1,204 @@
+Command: echo
+Output: 
+
+
+Command: echo 
+Output: 
+
+
+Command: echo ""
+Output: 
+
+
+Command: echo " "
+Output: 
+
+
+Command: echo "Hello, World!"
+Output: 
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+
+
+Command: echo "Special characters: \$%^&"
+Output: 
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+
+
+Command: echo "Hello, File!" > file.txt
+Output: 
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+
+
+Command: echo Hello, File! > file2.txt
+Output: 
+
+
+Command: cat
+Output: 
+
+
+Command: cat 
+Output: 
+
+
+Command: cat file.txt
+Output: 
+
+
+Command: cat file1.txt > file3.txt
+Output: 
+
+
+Command: cat nonexistent_file.txt
+Output: 
+
+
+Command: ls
+Output: 
+
+
+Command: ls 
+Output: 
+
+
+Command: ls ~
+Output: 
+
+
+Command: ls "E:\\Folder\\Projects\\C Programming\\Posix-Complaint-Shell\\Source Files"
+Output: 
+
+
+Command: ls "E:\\Folder\\Projects\\C Programming\\Posix-Complaint-Shell\\Source Files"
+Output: 
+
+
+Command: ls -af "E:\\Folder\\Projects\\C Programming\\Posix-Complaint-Shell\\Source Files"
+Output: 
+
+
+Command: ls -af "E:\\Folder\\Projects\\C Programming\\Posix-Complaint-Shell\\Source Files"
+Output: 
+
+
+Command: ls -a
+Output: 
+
+
+Command: ls -f
+Output: 
+
+
+Command: ls -af
+Output: 
+
+
+Command: .\\"E:\\Folder\\Projects\\C Programming\\Posix-Complaint-Shell\\Testing\\Test assets\\file.txt"
+Output: 
+
+
+Command: ./file.txt
+Output: 
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+
+
+Command: .\\"file.txt"
+Output: 
+
+
+Command: type ls
+Output: 
+
+
+Command: type type echo sss lsss ls cd
+Output: 
+
+
+Command: cd
+Output: 
+
+
+Command: cd 
+Output: 
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\Posix-Complaint-Shell.exe
+
+
+Command: cd "E:\\Folder\\Projects\\C Programming"
+Output: 
+
+
+Command: cd "C:/"
+Output: 
+
+
+Command: cd "E:/Folder"
+Output: 
+
+
+Command: cd "/nonexistent/directory"
+Output: 
+
+
+Command: cd "E:\\Folder\\Projects\\C Programming\\Posix-Complaint-Shell\\Testing\\Test assets"
+Output: 
+
+
+Command: cd ~
+Output: 
+
+
+Command: cd ..
+Output: 
+
+
+Command: pwd
+Output: 
+
+
+Command: pwd 
+Output: 
+
+
+Command: help
+Output: 
+
+
+Command: help ls echo
+Output: 
+
+
+Command: exit
+Output: 
+
+

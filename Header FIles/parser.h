@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
 
 /* Macros Section */
 #define MAX_INPUT_LENGTH 256
@@ -49,6 +51,13 @@ char* removeNewLine(char* str);
   * @note   This function removes the "./" prefix from the input string.
   */
 char* removeDotSlash(char* str);
+
+/**
+  * @brief Trims leading and trailing whitespace from a string.
+  *
+  * @param str The string to be trimmed.
+  */
+void trimWhitespace(char* str);
 
 /**
   * @brief  Extracts the command from the input buffer.

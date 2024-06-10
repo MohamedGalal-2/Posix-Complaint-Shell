@@ -52,6 +52,8 @@ char* removeNewLine(char* str);
   */
 char* removeDotSlash(char* str);
 
+void remove_quotes(char* str);
+
 /**
   * @brief Trims leading and trailing whitespace from a string.
   *

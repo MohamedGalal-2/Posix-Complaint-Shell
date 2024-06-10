@@ -66,6 +66,26 @@ char* removeDotSlash(char* str)
 	return str;
 }
 
+// Helper function to remove double quotes from the path
+void remove_quotes(char* str)
+{
+    char* read = str, * write = str;
+
+    if (str == NULL || read == NULL || write == NULL)
+    {
+        return;
+    }
+
+    while (*read)
+    {
+        if (*read != '\"') {
+            *write++ = *read;
+        }
+        read++;
+    }
+    *write = '\0';
+}
+
 // Removes leading and trailing whitespace from a string
 void trimWhitespace(char* str)
 {

@@ -1,25 +1,5 @@
 #include "../Header Files/mkdir.h"
 
-// Helper function to remove double quotes from the path
-void remove_quotes(char* str) 
-{
-    char* read = str, * write = str;
-
-    if (str == NULL || read == NULL || write == NULL) 
-	{
-		return;
-	}
-
-    while (*read) 
-    {
-        if (*read != '\"') {
-            *write++ = *read;
-        }
-        read++;
-    }
-    *write = '\0';
-}
-
 // Function to create a directory at the specified path
 int _make_Dir(const char* path)
 {

@@ -22,7 +22,7 @@ int ifExist(char* buffer)
 
     // Check if its a file run command
     strcpy(buffer, removeLeadingSpaces(buffer));
-    if (buffer[0] == '.' && buffer[1] == '/')
+    if ((buffer[0] == '.' && buffer[1] == '/') || (buffer[0] == '.' && buffer[1] == '\\'))
     {
         return 3;
     }
@@ -80,13 +80,16 @@ void commandCheck(char* buffer) {
         // Check if the command exists
         int flag = ifExist(Command);
 
-        if (flag == 1) {
+        if (flag == 1) 
+        {
             handleBuiltIns(Command, commands[0]);
         }
-        else if (flag == 2) {
+        else if (flag == 2) 
+        {
             // Do nothing if the buffer is empty
         }
-        else if (flag == 3) {
+        else if (flag == 3) 
+        {
             // Remove ./ from the command
             commands[0] = removeDotSlash(commands[0]);
             // Run the file

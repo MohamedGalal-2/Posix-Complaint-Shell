@@ -5,77 +5,6 @@ int followLinks = 1;			// Default behavior is to follow symbolic links
 
 /*Functions Definition Section */
 
-int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path)
-{
-	*showAll = 0;
-	*classify = 0;
-	*classAll = 0;
-	path[0] = '\0';
-
-	// Trim the leading and trailing spaces
-	trimWhitespace(argument);
-
-	if (argument == NULL || strlen(argument) == 0)
-	{
-		return 0;
-	}
-
-	char* token = strtok(argument, " ");
-
-	// Check if flags are provided
-	while (token != NULL && token[0] == '-')
-	{
-		if (strcmp(token, "-af") == 0)
-		{
-			*classAll = 1;
-		}
-		else if (strcmp(token, "-a") == 0)
-		{
-			*showAll = 1;
-		}
-		else if (strcmp(token, "-f") == 0)
-		{
-			*classify = 1;
-		}
-
-		// Move to the next token
-		token = strtok(NULL, " ");
-	}
-
-	// Process the remaining part of the argument as the path
-	if (token != NULL)
-	{
-		strcpy(path, token);
-	}
-
-	// Check if the path is a ~
-	if (path[0] == '~')
-	{
-		// Get the user's home directory
-		char homeDir[MAX_PATH];
-		if (GetEnvironmentVariableA("USERPROFILE", homeDir, MAX_PATH) > 0)
-		{
-			// Concatenate the home directory with the remaining path
-			char newPath[MAX_PATH];
-			snprintf(newPath, MAX_PATH, "%s%s", homeDir, path + 1); // Skip the '~' character
-			// Call ls with the new path
-			ls(newPath, *showAll, *classify, *classAll);
-			return 0;
-		}
-		else
-		{
-			fprintf(stderr, "Error: Unable to get user's home directory\n");
-			return 0;
-		}
-	}
-	else if (strlen(path) == 0)
-	{
-		_getcwd(path, MAX_PATH);
-	}
-
-	return 0;
-}
-
 void runFile(const char* fileName)
 {
 	// Use system command to execute the file
@@ -519,7 +448,8 @@ int handleBuiltIns(char* command, char* buffer)
 		// Call pwd function with flags
 		pwd(showLogical, showPhysical);
 	}
-	else if (strcmp(command, "ls") == 0) {
+	else if (strcmp(command, "ls") == 0) 
+	{
 		int showAll = 0;
 		int classify = 0;
 		int classAll = 0;
@@ -558,6 +488,10 @@ int handleBuiltIns(char* command, char* buffer)
 	}
 	else if (strcmp(command, "cat") == 0) {
 		cat(argument);
+	}
+	else if (strcmp(command, "mkdir") == 0) 
+	{
+		_make_Dir(argument);
 	}
 	else if (strcmp(command, "cd") == 0)
 	{

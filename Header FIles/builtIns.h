@@ -28,12 +28,12 @@
 #include "cat.h"
 #include "cd.h"
 #include "ls.h"
+#include "mkdir.h"
 
 #define BUFSIZE 4096
 
 
 /* Functions Prototype Section */
-int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path);
 void runFile(const char* fileName);
 bool checkForGreaterThan(const char* input);
 void echoFile(const char* argument);

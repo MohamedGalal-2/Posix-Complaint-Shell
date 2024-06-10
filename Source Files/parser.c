@@ -69,8 +69,13 @@ char* removeDotSlash(char* str)
 // Removes leading and trailing whitespace from a string
 void trimWhitespace(char* str)
 {
+    if (str == NULL)
+    {
+        return;
+    }
     int start = 0;
-    int end = strlen(str) - 1;
+    int end = strlen(str);
+    end--;
 
     // Find the position of the first non-whitespace character
     while (isspace(str[start]))

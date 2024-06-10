@@ -8,6 +8,7 @@
    echo " "
    echo "Hello, World!"
    echo "Special characters: \$%^&"
+   echo Special characters: \$%^&
    echo "Hello, File!" > file.txt
    echo Hello, File! > file2.txt
    ```
@@ -38,9 +39,10 @@
 
 4. **execute_script command**:
    ```bash
-   ./"E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets\file.txt"
    ./file.txt
    ./"file.txt"
+   .\file.txt
+   .\"file.txt"
    ```
 
 5. **type command**:
@@ -54,27 +56,46 @@
    cd
    cd 
    cd "E:\Folder\Projects\C Programming"
+   cd "E:\\Folder\Projects/C Programming"
    cd "C:/"
    cd "E:/Folder"
    cd "/nonexistent/directory"
    cd "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test assets"
+   cd ~\Videos\\\\\\
+   cd       ~/Videos
+   cd       "     ~\Videos\\"
    cd ~
    cd ..
+   cd ../Testing
+   cd ..
+   cd ./Testing
    ```
 
-7. **pwd command**:
+7. **mkdir command**:
+   ```bash
+   mkdir
+   mkdir            
+   mkdir Test 1
+   mkdir "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test 2"
+   ls "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing"
+   mkdir "   test 3"
+   mkdir    Test 4 
+   mkdir    "    Test 5"
+   ```
+
+8. **pwd command**:
    ```bash
    pwd
    pwd 
    ```
 
-8. **help command**:
+9. **help command**:
    ```bash
    help
    help ls echo 
    ```
 
-9. **exit command**:
+10. **exit command**:
    ```bash
    exit
    exit 1

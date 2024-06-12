@@ -11,7 +11,6 @@
 
 /**
  * @brief Reads the content of the input file and writes to the output file or prints to stdout.
- *
  * @param argument The input file name with optional output redirection symbol '>'.
  */
 void cat(const char* argument);

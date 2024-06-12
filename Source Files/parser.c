@@ -9,6 +9,7 @@
 
 /* Function Definitions */
 
+// Function to remove leading spaces from a string
 char* removeLeadingSpaces(char* str) 
 {
     /**
@@ -21,6 +22,7 @@ char* removeLeadingSpaces(char* str)
     return str;
 }
 
+// Function to remove trailing spaces from a string
 char* removeLastSpaces(char* str) 
 {
     /**
@@ -35,6 +37,7 @@ char* removeLastSpaces(char* str)
     return str;
 }
 
+// Function to remove leading and trailing spaces from a string
 char* removeNewLine(char* str) 
 {
     /**
@@ -51,6 +54,7 @@ char* removeNewLine(char* str)
     return str;
 }
 
+// Function to remove the "./" prefix from a string
 char* removeDotSlash(char* str)
 {
 	/**
@@ -117,6 +121,7 @@ void trimWhitespace(char* str)
     }
 }
 
+// Function to extract the command from a buffer containing user input
 char* getCommand(char* buffer)
 {
     /**
@@ -149,6 +154,7 @@ char* getCommand(char* buffer)
     return command;
 }
 
+// Function to extract the argument from a buffer containing user input
 char* getArgument(char* buffer) 
 {
     /**

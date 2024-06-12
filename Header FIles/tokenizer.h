@@ -21,7 +21,6 @@
   * @param  tokens: The array of strings to store the tokens.
   * @param  tokenCount: The number of tokens in the input string.
   * @param  maxTokens: The maximum number of tokens that can be stored in the tokens array.
-  * @return void
   * @note   This function tokenizes the input string based on spaces and stores the tokens in the tokens array.
   */
 void tokenizeInput(char* input, char** tokens, int* tokenCount, int maxTokens);
@@ -30,7 +29,6 @@ void tokenizeInput(char* input, char** tokens, int* tokenCount, int maxTokens);
   * @brief  Frees the memory allocated for the tokens array.
   * @param  tokens: The array of strings to be freed.
   * @param  tokenCount: The number of tokens in the array.
-  * @return void
   * @note   This function frees the memory allocated for each token in the tokens array and then frees the array itself.
   */
 void freeTokens(char** tokens, int tokenCount);

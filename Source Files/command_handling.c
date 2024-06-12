@@ -8,9 +8,11 @@
 
 /* Function Definition Section */
 
+// Check if the command is a built-in command
 int ifExist(char* buffer) 
 {
-    if (buffer == NULL || strlen(buffer) == 0) {
+    if (buffer == NULL || strlen(buffer) == 0) 
+    {
         return 2;
     }
 
@@ -45,8 +47,11 @@ int ifExist(char* buffer)
     return flag;
 }
 
-void commandCheck(char* buffer) {
-    if (buffer == NULL || strlen(buffer) == 0) {
+// Execute the command
+void commandCheck(char* buffer) 
+{
+    if (buffer == NULL || strlen(buffer) == 0) 
+    {
         // Handle empty input gracefully
         return;
     }
@@ -69,7 +74,8 @@ void commandCheck(char* buffer) {
     }
 
     // If there are multiple commands separated by '|', execute them as piped commands
-    if (commandCount > 1) {
+    if (commandCount > 1) 
+    {
         executeCommandsSequentially(commands, commandCount);
     }
     else {
@@ -95,7 +101,8 @@ void commandCheck(char* buffer) {
             // Run the file
             runFile(commands[0]);
         }
-        else {
+        else 
+        {
             printf("%s: ", Command);
             red();
             printf("command");
@@ -105,16 +112,19 @@ void commandCheck(char* buffer) {
     }
 }
 
+// Execute the commands sequentially
 void executeCommandsSequentially(char** commands, int commandCount) 
 {
-    for (int i = 0; i < commandCount; ++i) {
+    for (int i = 0; i < commandCount; ++i) 
+    {
         char Command[1024];
         strcpy(Command, getCommand(commands[i]));
 
         // Check if the command exists
         int flag = handleBuiltIns(Command, commands[i]);
 
-        if (!flag) {
+        if (!flag) 
+        {
             printf("%s: ", Command);
             red();
             printf("command");

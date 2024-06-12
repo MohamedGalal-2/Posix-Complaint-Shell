@@ -14,7 +14,6 @@
 #include <string.h>
 #include <ctype.h>
 
-
 /* Macros Section */
 #define MAX_INPUT_LENGTH 256
 
@@ -52,11 +51,15 @@ char* removeNewLine(char* str);
   */
 char* removeDotSlash(char* str);
 
+/**
+  * @brief  Removes the quotes from the input string.
+  * @param  str: The input string.
+  * @note   This function removes the quotes from the input string.
+  */
 void remove_quotes(char* str);
 
 /**
   * @brief Trims leading and trailing whitespace from a string.
-  *
   * @param str The string to be trimmed.
   */
 void trimWhitespace(char* str);

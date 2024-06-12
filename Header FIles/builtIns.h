@@ -29,18 +29,30 @@
 #include "cd.h"
 #include "ls.h"
 #include "mkdir.h"
+#include "echo.h"
+#include "runFile.h"
+#include "type.h"
+#include "help.h"
+#include "pwd.h"
 
 #define BUFSIZE 4096
 
 
 /* Functions Prototype Section */
-void runFile(const char* fileName);
+
+/**
+  * @brief  Function to check if '>' is present in the command.
+  * @param  input The command to check.
+  * @return 1 if '>' is present, 0 otherwise.
+  */
 bool checkForGreaterThan(const char* input);
-void echoFile(const char* argument);
-void echo(const char* argument);
-void type(char* command);
-void help(char* command);
-void pwd(int showLogical, int showPhysical);
+
+/** 
+  * @brief  Function to handle built-in shell commands.
+  * @param  command The command to handle.
+  * @param  buffer The buffer to store the output of the command.
+  * @return 1 if the command is a built-in command, 0 otherwise.
+  */
 int handleBuiltIns(char* command, char* buffer);
 
 #endif // _BUILTINS_H

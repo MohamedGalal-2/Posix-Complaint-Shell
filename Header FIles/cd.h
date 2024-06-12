@@ -14,10 +14,10 @@
 // Function declarations
 
 /**
- * @brief Changes the current directory to the specified path.
- *
- * @param path The path to change the directory to. If NULL or empty, changes to the home directory.
- */
+  * @brief  Changes the current directory to the specified path.
+  * @param  path The path to change the directory to. If NULL or empty, changes to the home directory.
+  * @return true if the directory was successfully changed, false otherwise.
+  */
 void cd(char* path);
 
 /**
@@ -27,24 +27,13 @@ void changeToHomeDirectory();
 
 /**
  * @brief Processes the given path, replacing any tilde (~) with the user's home directory.
- *
  * @param path The path containing a tilde to process.
  * @return true if the path was successfully processed, false otherwise.
  */
 bool processPathWithTilde(char* path);
 
 /**
- * @brief Resolves a symbolic link to its target path.
- *
- * @param path The symbolic link path to resolve.
- * @param resolvedPath The resolved target path.
- * @return true if the symbolic link was successfully resolved, false otherwise.
- */
-bool resolveSymbolicLink(char* path, char* resolvedPath);
-
-/**
  * @brief Strips the trailing double quote from the path if it is present.
- *
  * @param path The path to strip the trailing double quote from.
  */
 void stripTrailingQuote(char* path);

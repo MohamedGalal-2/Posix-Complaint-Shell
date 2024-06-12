@@ -9,6 +9,12 @@
 
 // Function to create a directory at the specified path
 // Returns 0 on success, -1 on failure
+
+/**
+  * @brief  Create a directory at the specified path
+  * @param  path The path to create the directory at
+  * @return 0 on success, -1 on failure
+  */
 int _make_Dir(const char* path);
 
 #endif // MKDIR_H

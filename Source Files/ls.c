@@ -19,6 +19,7 @@ char* trim(const char* str)
 	return temp;
 }
 
+// Funciton to parse the argument and flags
 int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll, char* path)
 {
     *showAll = 0;
@@ -138,6 +139,7 @@ int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll
     return 0;
 }
 
+// Perform the ls operation
 void ls(const char* path, int showAll, int classify, int classAll)
 {
     // Check if the path is NULL or empty

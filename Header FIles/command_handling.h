@@ -31,12 +31,17 @@ int ifExist(char* buffer);
 /**
  * @brief Parses the user input buffer and determines the appropriate action.
  * @param buffer The buffer containing the user input.
- * @return void
  * @note This function extracts the command from the buffer, checks if it exists,
  *       and then either invokes the corresponding built-in function or prints an error message.
  */
 void commandCheck(char* buffer);
 
+/**
+ * @brief Executes the commands in the buffer sequentially.
+ * @param commands The array of commands to execute.
+ * @param commandCount The number of commands in the array.
+ * @note This function executes the commands in the array sequentially.
+ */
 void executeCommandsSequentially(char** commands, int commandCount);
 
 #endif // _COMMAND_HANDLING_H_

@@ -3,17 +3,9 @@
 
 /* Function Definition Section */
 
-
+// Display welcome message
 static void display_welcome_message() 
 {
-    /**
-      * @brief  Displays a welcome message in the console with instructions.
-      * @param  None
-      * @return void
-      * @note   This function prints a welcome message in cyan color with instructions
-      *         on how to use the POSIX shell and provides some basic ASCII art.
-      */
-    
     cyan(); // Set text color to cyan
     printf("\n");
     printf("**********************************************************\n");
@@ -37,16 +29,9 @@ static void display_welcome_message()
     reset(); // Reset text color
 }
 
+// Display user information
 static void info()
 {
-    /**
-      * @brief  Displays the username, computer name, and current path in the console.
-      * @param  None
-      * @return void
-      * @note   This function retrieves the username, computer name, and current path
-      *         from the environment variables and displays them in the console.
-      */
-
     struct user userInfo;
 
     // Retrieving username from environment variable
@@ -72,33 +57,29 @@ static void info()
     reset();
 }
 
+// Get user input
 static void get_Input()
 {
-    /**
-	  * @brief  Gets user input from the console.
-	  * @param  None
-	  * @return void
-	  * @note   This function reads user input character by character and processes
-	  *         it to handle backspace, enter, and tab characters. It also prevents
-	  *         buffer overflow and processes the command once the user hits enter.
-	  */
-
     char input[1024]; // Buffer to store user input
    
     info(); // Display user prompt
 
-    while (1) {
+    while (1) 
+    {
         fgets(input, sizeof(input), stdin); // Read user input from stdin
 
         // Replace tab character with space
-        for (int i = 0; input[i] != '\0'; ++i) {
-            if (input[i] == '\t') {
+        for (int i = 0; input[i] != '\0'; ++i) 
+        {
+            if (input[i] == '\t') 
+            {
                 input[i] = ' ';
             }
         }
 
         // Remove trailing newline character, if present
-        if (input[strlen(input) - 1] == '\n') {
+        if (input[strlen(input) - 1] == '\n') 
+        {
             input[strlen(input) - 1] = '\0';
         }
 
@@ -108,15 +89,9 @@ static void get_Input()
     }
 }
 
+// Initialize the shell
 void shell_Init()
-{
-    /**
-      * @brief  Initializes the shell by displaying a welcome message and getting user input.
-      * @param  None
-      * @return void
-      * @note   This function serves as the entry point for the shell application.
-      */
-    
+{  
     display_welcome_message();
 
     while (1)

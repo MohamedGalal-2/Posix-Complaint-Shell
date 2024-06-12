@@ -1,4 +1,6 @@
-### Command Execution:
+# TEST CASES
+
+## Command Execution:
 
 1. **echo command**:
    ```bash
@@ -101,7 +103,7 @@
    exit 1
    ```
 
-### Shell Behavior:
+## Shell Behavior:
 
 10. **Shell Startup**:
     ```bash
@@ -127,7 +129,7 @@
     ./Posix-Complaint-Shell ls | grep file
     ```
 
-### Error Handling:
+## Error Handling:
 
 14. **Error Handling**:
     ```bash
@@ -136,7 +138,7 @@
     ./Posix-Complaint-Shell cat
     ```
 
-### Edge Cases:
+## Edge Cases:
 
 15. **Edge Cases**:
     ```bash

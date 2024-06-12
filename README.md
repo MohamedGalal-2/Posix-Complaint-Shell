@@ -27,14 +27,14 @@ Navigate to the project directory and compile the source code:
 
 ```bash
 cd Posix-Compliant-Shell
-gcc -o posix_shell main.c shell.c builtIns.c colors.c command_handling.c parser.c
+gcc -o shell builtIns.c cat.c cd.c colors.c command_handling.c ls.c main.c parser.c shell.c tokenizer.c mkdir.c
 ```
 
 ### Usage
 Start the shell by running the compiled executable:
 
 ```bash
-./posix_shell
+./shell
 ```
 
 You can then enter commands as you would in a standard shell. Type `exit` to quit the shell.
@@ -48,6 +48,12 @@ This shell provides several built-in commands:
   cd ~/Documents
   ```
 
+- **mkdir**: Creates a new directory.
+  ```sh
+  mkdir /path/to/new_directory
+  mkdir new_directory
+  ```
+
 - **cat**: Concatenates and displays the contents of files.
   ```sh
   cat file.txt
@@ -59,11 +65,13 @@ This shell provides several built-in commands:
   ls
   ls -a
   ls /path/to/directory
+  ls -af /path/to/directory
   ```
 
 - **./[file]**: Executes a file in the current directory.
   ```sh
   ./script.sh
+  .\script.sh
   ```
 
 - **type**: Displays if a command is a built-in command.

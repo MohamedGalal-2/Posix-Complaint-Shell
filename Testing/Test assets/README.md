@@ -1,6 +1,3 @@
-Certainly! Here's how you can structure a README file for a folder within a larger project repository:
-
-```markdown
 # AutoIt Testing Folder
 
 Welcome to the AutoIt testing folder within our project repository! This folder contains scripts and executables used for testing purposes using AutoIt.
@@ -53,5 +50,3 @@ This repository is licensed under the [MIT License](LICENSE).
 - **Getting Started**: Provide clear instructions on how to clone, navigate, and run the scripts and executables within this specific folder.
 - **Contributing**: Encourage others to contribute to this folder and provide guidance on how they can do so.
 - **License**: Specify the license under which the entire project repository, including this folder, is distributed.
-
-Replace placeholders like `yourusername`, `project-repo`, and adjust folder and file names as per your actual repository structure. This README template should now accurately represent the AutoIt testing folder within your larger project repository.

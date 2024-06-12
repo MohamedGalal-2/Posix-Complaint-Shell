@@ -114,15 +114,8 @@ ls -a
 # Using input and output redirection
 cat input.txt > output.txt
 
-# Piping commands
-ls -l | grep ".c"
-
-# Setting and using environment variables
-export MY_VAR="Hello"
-echo $MY_VAR
-
-# Running a command in the background
-sleep 60 &
+# Performing sequence commands using ';'
+ls ; echo Hello
 ```
 
 ### Contributing

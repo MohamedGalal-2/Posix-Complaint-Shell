@@ -1,4 +1,4 @@
-Sure, let's break down each possible test case for your C project functions:
+Some possible test cases.
 
 1. **cd_command:**
    - Test changing to a valid directory:
@@ -94,4 +94,4 @@ Sure, let's break down each possible test case for your C project functions:
      ./Posix-Complaint-Shell.exe exit 1
      ```
 
-These commands cover various scenarios for testing each function in your C project. Adjust the file paths and command arguments as needed for your specific project setup.
+These commands cover various scenarios for testing each function. Adjust the file paths and command arguments as needed for your specific project setup.

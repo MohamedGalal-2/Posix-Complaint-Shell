@@ -27,7 +27,7 @@ Navigate to the project directory and compile the source code:
 
 ```bash
 cd Posix-Compliant-Shell
-gcc -o shell builtIns.c cat.c cd.c colors.c command_handling.c ls.c main.c parser.c shell.c tokenizer.c mkdir.c
+gcc -o shell builtIns.c cat.c cd.c colors.c command_handling.c ls.c main.c parser.c shell.c tokenizer.c mkdir.c type.c echo.c runFile.c help.c pwd.c
 ```
 
 ### Usage

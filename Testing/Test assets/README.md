@@ -1,4 +1,4 @@
-# AutoIt Testing Folder
+# AutoIt Testing
 
 Welcome to the AutoIt testing folder within our project repository! This folder contains scripts and executables used for testing purposes using AutoIt.
 
@@ -19,12 +19,12 @@ To get started with using the scripts and executables in this folder, follow the
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/project-repo.git
+   git clone https://github.com/MohamedGalal-2/Posix-Complaint-Shell-For-Windows.git
    ```
    
 2. **Navigate to the folder**:
    ```bash
-   cd project-repo/AutoIt_Testing_Folder
+   cd Posix-Complaint-Shell-For-Windows/Testing/"Test assets"
    ```
 
 3. **Run the scripts or executables**:
@@ -37,7 +37,7 @@ To get started with using the scripts and executables in this folder, follow the
 
 ## Contributing
 
-Contributions to this folder are welcome! If you find any issues or have improvements to suggest, feel free to [open an issue](https://github.com/yourusername/project-repo/issues) or submit a pull request.
+Contributions to this folder are welcome! If you find any issues or have improvements to suggest, feel free to [open an issue](https://github.com/MohamedGalal-2/Posix-Complaint-Shell-For-Windows/issues) or submit a pull request.
 
 ## License
 

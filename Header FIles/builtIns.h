@@ -34,6 +34,10 @@
 #include "type.h"
 #include "help.h"
 #include "pwd.h"
+#include "rmdir.h"
+#include "grep.h"
+#include "clear.h"
+#include "date.h"
 
 #define BUFSIZE 4096
 

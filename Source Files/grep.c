@@ -137,7 +137,14 @@ int grep(const char* filename, const char* search_string, bool ignore_case, bool
     // Print filename if list_files flag is set and matches found
     if (list_files && match_count > 0)
     {
+        magenta();
         printf("%s\n", filename);
+        reset();
+    }
+    
+    if (invert_match || ignore_case)
+    {
+        printf("\n");
     }
 
     return match_count;  // Return the total number of matches found

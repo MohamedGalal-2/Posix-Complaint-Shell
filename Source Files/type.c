@@ -51,7 +51,7 @@ void type(char* command)
         }
 
         // Checking if the command is a built-in
-        if (strcmp(currentCommand, "mkdir") == 0 || strcmp(currentCommand, "cat") == 0 || strcmp(currentCommand, "ls") == 0 || strcmp(currentCommand, "echo") == 0 || strcmp(currentCommand, "type") == 0 || strcmp(currentCommand, "cd") == 0 || strcmp(currentCommand, "pwd") == 0 || strcmp(currentCommand, "help") == 0 || strcmp(currentCommand, "exit") == 0) 
+        if (strcmp(currentCommand, "rmdir") == 0 || strcmp(currentCommand, "mkdir") == 0 || strcmp(currentCommand, "cat") == 0 || strcmp(currentCommand, "ls") == 0 || strcmp(currentCommand, "echo") == 0 || strcmp(currentCommand, "type") == 0 || strcmp(currentCommand, "cd") == 0 || strcmp(currentCommand, "pwd") == 0 || strcmp(currentCommand, "help") == 0 || strcmp(currentCommand, "exit") == 0)
         {
             red();
             printf("%s", currentCommand);

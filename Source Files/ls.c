@@ -139,7 +139,7 @@ int parseFlagsAndPath(char* argument, int* showAll, int* classify, int* classAll
     return 0;
 }
 
-// Perform the ls operation
+// List the contents of the directory
 void ls(const char* path, int showAll, int classify, int classAll)
 {
     // Check if the path is NULL or empty

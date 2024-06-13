@@ -1,9 +1,6 @@
-/**
-  * @file  help.c
-  * @brief Implementation of the help function.
-  */
-
 #include "../Header Files/help.h"
+#include <stdio.h>
+#include <string.h>
 
 void help(char* command)
 {
@@ -43,6 +40,22 @@ void help(char* command)
         printf("\n");
         printf("mkdir [-p] directory ...\n");
         printf("    Create directories.\n");
+        printf("\n");
+        printf("rmdir directory ...\n");
+        printf("    Remove directories.\n");
+        printf("\n");
+        printf("grep [-ivclnwo] pattern [file ...]\n");
+        printf("    Search for patterns in files.\n");
+        printf("\n");
+        printf("clear\n");
+        printf("    Clear the terminal screen.\n");
+        printf("\n");
+        printf("date <format>\n");
+        printf("    Display current date and time.\n");
+        printf("\n");
+        printf("Supports command execution by running files using the `./' operator.\n");
+        printf("\n");
+        printf("Supports command chaining using the `;' operator.\n");
         printf("\n");
         printf("Supports command piping using the `|` operator.\n");
         printf("\n");
@@ -117,6 +130,35 @@ void help(char* command)
                 printf("\n");
                 printf("mkdir: mkdir [-p] directory ...\n");
                 printf("    Create directories.\n");
+                printf("\n");
+            }
+            else if (strcmp(token, "rmdir") == 0)
+            {
+                printf("\n");
+                printf("rmdir: rmdir directory ...\n");
+                printf("    Remove directories.\n");
+                printf("\n");
+            }
+            else if (strcmp(token, "grep") == 0)
+            {
+                printf("\n");
+                printf("grep: grep [-ivclnwo] pattern [file ...]\n");
+                printf("    Search for patterns in files.\n");
+                printf("\n");
+            }
+            else if (strcmp(token, "clear") == 0)
+            {
+                printf("\n");
+                printf("clear\n");
+                printf("    Clear the terminal screen.\n");
+                printf("\n");
+            }
+            else if (strcmp(token, "date") == 0)
+            {
+                printf("\n");
+                printf("date: date [<format>]\n");
+                printf("    Display current date and time.\n");
+                printf("    <format> - Optional argument to specify custom date format.\n");
                 printf("\n");
             }
             else

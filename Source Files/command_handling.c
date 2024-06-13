@@ -17,7 +17,7 @@ int ifExist(char* buffer)
     }
 
     // List of commands
-    char command[][10] = { "exit", "echo", "type", "help", "ls", "pwd", "cd", "mkdir", "rmdir", "rm", "cp", "mv", "cat", "more", "date", "who", "ps", "clear", "exit", "touch", "chmod", "chown", "chgrp", "ln", "wc", "grep", "sort", "uniq", "cut", "paste", "join", "comm", "diff", "tar", "gzip", "gunzip", "zip", "unzip", "head", "tail", "tr", "sed", "awk", "find", "xargs", "kill" };
+    char command[][10] = { "exit", "echo", "type", "help", "ls", "pwd", "cd", "mkdir", "rmdir", "clear", "cat", "grep", "date", "rm", "cp", "mv", "more", "who", "ps", "touch", "chmod", "chown", "chgrp", "ln", "wc", "sort", "uniq", "cut", "paste", "join", "comm", "diff", "tar", "gzip", "gunzip", "zip", "unzip", "head", "tail", "tr", "sed", "awk", "find", "xargs", "kill" };
 
     int i = 0;
     int flag = 0;
@@ -56,13 +56,14 @@ void commandCheck(char* buffer)
         return;
     }
 
-    // Tokenize the input buffer based on the pipe symbol '|'
+    // Tokenize the input buffer based on the semi-colon symbol ';'
     char* token;
-    char* commands[10]; // Maximum 10 piped commands supported
+    char* commands[10]; // Maximum 10 sequenced commands supported
     int commandCount = 0;
 
-    token = strtok(buffer, "|");
-    while (token != NULL) {
+    token = strtok(buffer, ";");
+    while (token != NULL) 
+    {
         // Remove leading and trailing spaces from the token
         trimWhitespace(token);
 
@@ -70,15 +71,16 @@ void commandCheck(char* buffer)
         commands[commandCount++] = token;
 
         // Get the next token
-        token = strtok(NULL, "|");
+        token = strtok(NULL, ";");
     }
 
-    // If there are multiple commands separated by '|', execute them as piped commands
+    // If there are multiple commands separated by ';', execute them as sequenced commands
     if (commandCount > 1) 
     {
         executeCommandsSequentially(commands, commandCount);
     }
-    else {
+    else 
+    {
         // Get the command
         char Command[1024];
         strcpy(Command, getCommand(commands[0]));
@@ -123,7 +125,7 @@ void executeCommandsSequentially(char** commands, int commandCount)
         // Check if the command exists
         int flag = handleBuiltIns(Command, commands[i]);
 
-        if (!flag) 
+        if (flag) 
         {
             printf("%s: ", Command);
             red();

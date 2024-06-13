@@ -137,10 +137,80 @@ int handleBuiltIns(char* command, char* buffer)
     {
         _make_Dir(argument);
     }
+    else if (strcmp(command, "rmdir") == 0)
+    {
+			_remove_Dir(argument);
+    }
     else if (strcmp(command, "cd") == 0)
     {
         cd(argument);
     }
+    else if (strcmp(command, "clear") == 0)
+    {
+        clear_screen();
+    }
+    else if (strcmp(command, "grep") == 0)
+    {
+        bool ignore_case = false;
+        bool invert_match = false;
+        bool count = false;
+        bool list_files = false;
+        bool line_number = false;
+        bool word_regexp = false;
+        bool only_matching = false;
+        char search_string[1024];
+        char filename[1024];
 
-    return 0; // Or any other appropriate return value
+        if (argument != NULL)
+        {
+            int result = parseGrepFlagsAndArgs(argument, search_string, filename, &ignore_case, &invert_match, &count, &list_files, &line_number, &word_regexp, &only_matching);
+            if (result == -1)
+            {
+                fprintf(stderr, "Error parsing arguments for grep\n");
+                return 1;
+            }
+
+            // Call grep with the parsed arguments and flags
+            result = grep(filename, search_string, ignore_case, invert_match, count, list_files, line_number, word_regexp, only_matching);
+            if (result == -1)
+            {
+                fprintf(stderr, "Error executing grep\n");
+                return 1;
+            }
+        }
+        else
+        {
+            fprintf(stderr, "Usage: grep [flags] search_string filename\n");
+            return 1;
+        }
+    }
+    else if (strcmp(command, "date") == 0)
+    {
+        int flag = 0;
+        if (argument != NULL)
+        {
+            for (int i = 0; i < strlen(argument); i++)
+            {
+                if (argument[i] == '"')
+                {
+                    flag = 1;
+                }
+            }
+        }
+
+        // Check it the date command has any arguments
+        if (argument != NULL && flag != 0)
+		{
+			// Call the date function to display the date in the specified format
+            display_formatted_datetime(argument);
+		}
+		else
+		{
+            // Call the date function to display current date and time
+            display_current_datetime();
+		}  
+    }
+
+
+    return 0;
 }

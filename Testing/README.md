@@ -36,7 +36,6 @@
    ls -a
    ls -f
    ls -af
-
    ```
 
 4. **execute_script command**:
@@ -73,91 +72,124 @@
    cd ./Testing
    ```
 
-7. **mkdir command**:
+7. **pwd command**:
+   ```bash
+   pwd
+   pwd 
+   ```
+
+8. **date command**:
+   ```bash
+   date
+   date 
+   date "%Y-%m-%d %H:%M:%S"
+   date "%Y-%m-%d %H:%M"
+   date "%m-%d-%Y %H:%M:%S" 
+   ```
+
+9. **clear command**:
+   ```bash
+   clear
+   clear 
+   clear sss
+   ```
+
+10. **grep command**:
+   ```bash
+   grep
+   grep 
+   grep test grepTest
+   grep test grepTest.txt
+   grep -i test grepTest.txt
+   grep -v test grepTest.txt
+   grep -c test grepTest.txt
+   grep -l test grepTest.txt
+   grep -n test grepTest.txt
+   grep -w test grepTest.txt
+   grep -o test grepTest.txt
+   ```
+
+11. **mkdir command**:
    ```bash
    mkdir
    mkdir            
    mkdir Test 1
    mkdir "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test 2"
+   mkdir ..\Hello
+   mkdir ../../Hello
    ls "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing"
    mkdir "   test 3"
    mkdir    Test 4 
    mkdir    "    Test 5"
    ```
 
-8. **pwd command**:
+12. **rmdir command**:
    ```bash
-   pwd
-   pwd 
+   rmdir
+   rmdir            
+   rmdir Test 1
+   rmdir "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test 2"
+   rmdir ..\Hello
+   rmdir ../../Hello
+   ls "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing"
+   rmdir "   test 3"
+   rmdir    Test 4 
+   rmdir    "    Test 5"
    ```
 
-9. **help command**:
+13. **help command**:
    ```bash
    help
    help ls echo 
    ```
 
-10. **exit command**:
+14. **exit command**:
    ```bash
    exit
    exit 1
    ```
 
-## Shell Behavior:
+### Shell Behavior:
 
-10. **Shell Startup**:
+15. **Shell Startup**:
     ```bash
     ./Posix-Complaint-Shell
     ```
 
-11. **Shell Environment**:
+16. **Input and Output Redirection**:
     ```bash
-    export TEST_VAR=value
-    echo $TEST_VAR
-    unset TEST_VAR
+    cat file.txt > output.txt
+    cat input.txt
+    echo "Append" >> output.txt
     ```
 
-12. **Input and Output Redirection**:
+17. **Sequence Commands**:
     ```bash
-    ./Posix-Complaint-Shell cat file.txt > output.txt
-    ./Posix-Complaint-Shell cat < input.txt
-    ./Posix-Complaint-Shell echo "Append" >> output.txt
+    ls ; grep file
     ```
 
-13. **Pipe Commands**:
+### Error Handling:
+
+18. **Error Handling**:
     ```bash
-    ./Posix-Complaint-Shell ls | grep file
+    invalid_command
+    ls -z
+    cat
     ```
 
-## Error Handling:
+### Edge Cases:
 
-14. **Error Handling**:
+19. **Edge Cases**:
     ```bash
-    ./Posix-Complaint-Shell invalid_command
-    ./Posix-Complaint-Shell ls -z
-    ./Posix-Complaint-Shell cat
-    ```
-
-## Edge Cases:
-
-15. **Edge Cases**:
-    ```bash
-    ./Posix-Complaint-Shell command_with_extremely_long_arguments
-    ./Posix-Complaint-Shell "command with special characters"
-    ./Posix-Complaint-Shell "command with spaces"
-    ./Posix-Complaint-Shell ""
-    ```
-
-### Integration Tests:
-
-16. **Integration**:
-    ```bash
-    ./Posix-Complaint-Shell "ls | grep file"
+    command_with_extremely_long_arguments_sooooooooooooooooooooooooooooooooooooo_looooooooooooong sooooooooooooooooooooooooooooooooooooo_looooooooooooongsssssssssssssssssssssss
+    command with special characters//#@!#$%
+    command with spaces
+    
     ```
 
 ### Miscellaneous:
 
-17. **User Interaction**:
+20. **User Interaction**:
     - Test user input and output interactions manually.
 
-These commands cover various scenarios and test cases for each function in your POSIX-compliant shell project. You can run these commands in your terminal to validate the behavior of your shell implementation.
+These commands cover various scenarios and test cases for each function in the POSIX-compliant shell. You can run these commands in the POSIX terminal to validate the behavior of the implementation.

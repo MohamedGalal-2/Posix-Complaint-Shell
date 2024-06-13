@@ -17,10 +17,10 @@ Func RunCommand($command)
 
     ; Type the command
     Send($command & "{ENTER}")
-    Sleep(500) ; Short delay after sending the command
+    Sleep(250) ; Short delay after sending the command
 
     ; Wait for the command to execute and capture the output
-    Sleep(2000) ; Adjust this delay as necessary
+    Sleep(250) ; Adjust this delay as necessary
 
     ; Add debugging messages
     ConsoleWrite("Command sent: " & $command & @CRLF)
@@ -47,7 +47,7 @@ Func RunCommand($command)
 EndFunc
 
 ; Test commands
-Global $testCommands[100] = [ _
+Global $testCommands[150] = [ _
     'echo', _
     'echo ', _
     'echo ""', _
@@ -89,8 +89,43 @@ Global $testCommands[100] = [ _
     'pwd ', _
     'help', _
     'help ls echo', _
-    'exit', _
-    'exit 1' _
+	'date', _
+    'date "%Y-%m-%d %H:%M:%S"', _
+    'date "%Y-%m-%d %H:%M"', _
+    'date "%m-%d-%Y %H:%M:%S"', _
+    'clear', _
+    'clear sss', _
+    'grep', _
+    'grep test grepTest', _
+    'grep test grepTest.txt', _
+    'grep -i test grepTest.txt', _
+    'grep -v test grepTest.txt', _
+    'grep -c test grepTest.txt', _
+    'grep -l test grepTest.txt', _
+    'grep -n test grepTest.txt', _
+    'grep -w test grepTest.txt', _
+    'grep -o test grepTest.txt', _
+    'mkdir', _
+    'mkdir Test 1', _
+    'mkdir "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test 2"', _
+    'mkdir ..\Hello', _
+    'mkdir ../../Hello', _
+    'mkdir "   test 3"', _
+    'mkdir    Test 4', _
+    'mkdir    "    Test 5"', _
+    'rmdir', _
+    'rmdir Test 1', _
+    'rmdir "E:\Folder\Projects\C Programming\Posix-Complaint-Shell\Testing\Test 2"', _
+    'rmdir ..\Hello', _
+    'rmdir ../../Hello', _
+    'rmdir "   test 3"', _
+    'rmdir    Test 4', _
+    'rmdir    "    Test 5"', _
+    'help', _
+    'help ls echo', _
+    'exit 0', _
+	'exit', _
+	'exit 1' _
 ]
 
 ; Execute each test command

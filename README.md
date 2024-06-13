@@ -27,7 +27,7 @@ Navigate to the project directory and compile the source code:
 
 ```bash
 cd Posix-Compliant-Shell
-gcc -o shell builtIns.c cat.c cd.c colors.c command_handling.c ls.c main.c parser.c shell.c tokenizer.c mkdir.c type.c echo.c runFile.c help.c pwd.c
+gcc -o shell builtIns.c cat.c cd.c colors.c command_handling.c ls.c main.c parser.c shell.c tokenizer.c mkdir.c type.c echo.c runFile.c help.c pwd.c rmdir.c clear.c grep.c
 ```
 
 ### Usage
@@ -86,9 +86,26 @@ This shell provides several built-in commands:
   echo "Hello, World!" > output.txt
   ```
 
+- **rmdir**: Removes directories.
+  ```sh
+  rmdir directory_name
+  mkdir /path/to/directory_name
+  ```
+
+- **grep**: Searches for patterns in files or input.
+  ```sh
+  grep pattern file
+  grep [-ivclnwo] pattern file
+  ```
+
 - **pwd**: Displays the current working directory.
   ```sh
   pwd
+  ```
+
+- **clear**: Clears the terminal screen.
+  ```sh
+  clear
   ```
 
 - **help [command]**: Lists the available commands or displays information about a specific command.
